@@ -1,4 +1,6 @@
-require_relative 'parser'
+require_relative 'enrollment_parser'
+require_relative 'district'
+require 'pry'
 
 class DistrictRepository
   attr_accessor :districts
@@ -8,11 +10,24 @@ class DistrictRepository
   end
 
   def path(file_set)
-    "#{file_set.values}"
+    file_set.fetch(:kindergarten)
   end
 
   def load_data(file_set)
-    Parser.new(path(file_set)).district_data
+    parsed_district_data(file_set).each do |district|
+       @districts << District.new(district)
+     end
+  end
+
+  def parsed_district_data(file_set)
+    EnrollmentParser.new(path(file_set)).district_data
+  end
+
+  def find_by_name(name)
+    @districts.find do |district|
+      # binding.pry
+      district.name == name.upcase
+    end
   end
 end
 

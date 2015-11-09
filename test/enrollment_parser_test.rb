@@ -1,11 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/parser'
+require './lib/enrollment_parser'
 
-class ParserTest < Minitest::Test
+class EnrollmentParserTest < Minitest::Test
 
   def setup
-    @p = Parser.new("./test/fixtures/sample_kindergarten.csv")
+    @p = EnrollmentParser.new("./test/fixtures/sample_kindergarten.csv")
   end
 
   def test_headers_print_from_sample_data

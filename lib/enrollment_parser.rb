@@ -1,12 +1,11 @@
 require 'csv'
 require 'pry'
 
-class Parser
+class EnrollmentParser
 
   attr_accessor :csv
 
   def initialize(path)
-    binding.pry
     @csv = CSV.read(path, {headers: true, return_headers:false})
   end
 

@@ -12,7 +12,7 @@ class DistrictRepository
 
   def load_data(file_set)
     parsed_district_data(file_set).each_pair do |district_name, attributes|
-      districts[district_name] = District.new(districts_data(attributes) )
+      districts[district_name.upcase] = District.new(districts_data(attributes) )
      end
   end
 
@@ -42,7 +42,7 @@ class DistrictRepository
   end
 
   def find_by_name(name)
-    @districts.key?(name) ? @districts.fetch(name) : nil
+    @districts.key?(name.upcase) ? @districts.fetch(name.upcase) : nil
   end
 
   def find_all_matching(frag)

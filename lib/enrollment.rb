@@ -7,6 +7,10 @@ class Enrollment
     @kindergarten_participation = data.fetch(:kindergarten_participation)
   end
 
+  def truncate(value)
+    ((value * 1000).floor/1000.0)
+  end
+
   def kindergarten_participation_in_year(year)
     kindergarten_participation_by_year[year]
   end
@@ -14,7 +18,7 @@ class Enrollment
   def kindergarten_participation_by_year
     kind_part = {}
     @kindergarten_participation.each_pair do |key, value|
-      kind_part[key] = ((value * 1000).floor/1000.0)
+      kind_part[key] = truncate(value)
     end
     kind_part
   end

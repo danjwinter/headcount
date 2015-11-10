@@ -10,17 +10,16 @@ class EnrollmentRepository
   end
 
   def path(file_set)
-    file_set.fetch(:kindergarten)
+    file_set.fetch(:enrollment).fetch(:kindergarten)
   end
 
   def load_data(file_set)
-
     parsed_enrollment_data(file_set).each_pair do |enrollment, attributes|
       enrollments_data = {}
       enrollments_data[:name] = attributes[0].fetch(:location).upcase
 
       enrollments_data[:kindergarten_participation] = kindergarten_participation_prep(attributes)
-      binding.pry
+
       enrollments[enrollment] = Enrollment.new(enrollments_data)
      end
   end

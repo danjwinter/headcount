@@ -10,7 +10,7 @@ class DistrictRepository
   end
 
   def path(file_set)
-    file_set.fetch(:kindergarten)
+    file_set.fetch(:enrollment).fetch(:kindergarten)
   end
 
   def load_data(file_set)

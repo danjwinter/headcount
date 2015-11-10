@@ -13,9 +13,19 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert @er = EnrollmentRepository.new
   end
 
+  def file_set
+    {:enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten.csv"
+      }
+    }
+  end
+
   def test_load_data_helper_finds_a_value
-    path = "./data/Kindergartners in full-day program.csv"
-    file_set = {:kindergarten => "./data/Kindergartners in full-day program.csv"}
+    path = "./test/fixtures/sample_kindergarten.csv"
+    # file_set = {:enrollment => {
+    #   :kindergarten => "./data/Kindergartners in full-day program.csv"
+    #   }
+    # }
 
     assert_equal path, @er.path(file_set)
   end
@@ -26,7 +36,12 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_districts_loads_kindergarten_sample_data
-    @er.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    # file_set = {:enrollment => {
+    #   :kindergarten => "./test/fixtures/sample_kindergarten.csv"
+    #   }
+    # }
+    @er.load_data(file_set)
+    # @er.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
     enrollments_keys = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
     assert_equal 4, @er.enrollments.count

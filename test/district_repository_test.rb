@@ -9,6 +9,13 @@ class DistrictRepositoryTest < Minitest::Test
     @dr = DistrictRepository.new
   end
 
+  def file_set
+    {:enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten.csv"
+      }
+    }
+  end
+
   def find_class_of_objects_in_districts
     @dr.districts.map {|dis| dis.class}
   end
@@ -18,8 +25,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_load_data_helper_finds_a_value
-    path = "./data/Kindergartners in full-day program.csv"
-    file_set = {:kindergarten => "./data/Kindergartners in full-day program.csv"}
+    path = "./test/fixtures/sample_kindergarten.csv"
 
     assert_equal path, @dr.path(file_set)
   end
@@ -30,7 +36,8 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_districts_loads_kindergarten_sample_data
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+
+    @dr.load_data(file_set)
     districts_keys = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
     assert_equal 4, @dr.districts.count
@@ -41,7 +48,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_districts_are_found_by_name
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    @dr.load_data(file_set)
     district_object1 = @dr.find_by_name("Colorado")
     district_object2 = @dr.find_by_name("ACADEMY 20")
 
@@ -52,21 +59,21 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_districts_are_not_found_if_name_doesnt_exist
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    @dr.load_data(file_set)
     district_object = @dr.find_by_name("Montana")
 
     assert_equal nil, district_object
   end
 
   def test_find_all_matching_returns_empty_array_with_no_match
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    @dr.load_data(file_set)
     district_objects = @dr.find_all_matching("zzz")
 
     assert_equal [], district_objects
   end
 
   def test_find_all_matching_returns_data_with_one_match
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    @dr.load_data(file_set)
     district_objects = @dr.find_all_matching("col")
 
     assert_equal 1, district_objects.count
@@ -74,7 +81,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_find_all_matching_returns_data_with_multiple_matches
-    @dr.load_data(:kindergarten => "./test/fixtures/sample_kindergarten.csv")
+    @dr.load_data(file_set)
     district_objects = @dr.find_all_matching("ada")
     first = district_objects[0]
     second = district_objects[1]

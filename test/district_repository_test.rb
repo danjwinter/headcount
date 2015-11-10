@@ -92,10 +92,9 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_district_repo_creates_enroll_repo_automatically
-    skip
     @dr.load_data(file_set)
     district = @dr.find_by_name("ACADEMY 20")
-    assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2010)
+    assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2007)
   end
 
 end

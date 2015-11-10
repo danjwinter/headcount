@@ -27,7 +27,7 @@ class DistrictRepository
   def kindergarten_participation_prep(attributes)
     kind_par = {}
     attributes.each do |attribute|
-      kind_par[attribute.fetch(:timeframe)] = attribute.fetch(:data).to_i
+      kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
     end
     kind_par
 

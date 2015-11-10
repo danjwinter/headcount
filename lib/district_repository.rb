@@ -15,7 +15,9 @@ class DistrictRepository
 
   def load_data(file_set)
     parsed_district_data(file_set).each_pair do |district, attributes|
-      districts[district] = District.new(district, attributes)
+      districts_data = {}
+      districts_data[:name] = attributes[0].fetch(:location)
+      districts[district] = District.new(districts_data)
      end
   end
 

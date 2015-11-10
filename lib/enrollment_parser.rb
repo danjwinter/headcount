@@ -13,8 +13,15 @@ class EnrollmentParser
     @csv.group_by do |row|
       row[:location]
     end
-
   end
+
+  def enrollment_data
+    @csv.group_by do |row|
+      row[:location]
+    end
+  end
+
+
   #
   # def district_data_test
   #   @csv.reduce([]) do |orig, row|

@@ -8,13 +8,20 @@ class EnrollmentParserTest < Minitest::Test
     @p = EnrollmentParser.new("./test/fixtures/sample_kindergarten.csv")
   end
 
-  def test_headers_print_from_sample_data
-    assert_equal ["Location", "TimeFrame", "DataFormat", "Data"], @p.csv.headers
+  def test_parser_creates_array_of_one_hash_upon_initialization
+    assert_equal Hash, @p.csv[0].class
   end
 
-  def test_districts_returns_array_of_values
-    assert_equal [{:name=>"Colorado"},
- {:name=>"ACADEMY 20"}], @p.districts
+  def test_district_data_creates_keys_based_on_locations
+    locations = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
+    assert_equal locations, @p.district_data.keys
   end
+
+  
+
+ #  def test_districts_returns_array_of_values
+ #    assert_equal [{:name=>"Colorado"},
+ # {:name=>"ACADEMY 20"}], @p.districts
+ #  end
 
 end

@@ -1,15 +1,12 @@
 class District
   attr_accessor :data
+  attr_reader :name
 
-  def initialize(data)
+  def initialize(name, data)
     @data = data
+    @name = name.upcase
   end
 
-  def name
-    @data.fetch(:name).upcase
-    # {:name => "ACADEMY 20"}
-  end
 
-  
 
 end

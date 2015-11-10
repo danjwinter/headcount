@@ -6,7 +6,7 @@ class DistrictRepository
   attr_accessor :districts
 
   def initialize
-    @districts = []
+    @districts = {}
   end
 
   def path(file_set)
@@ -14,8 +14,8 @@ class DistrictRepository
   end
 
   def load_data(file_set)
-    parsed_district_data(file_set).each do |district|
-       @districts << District.new(district)
+    parsed_district_data(file_set).each_pair do |district, attributes|
+      districts[district] = District.new(district, attributes)
      end
   end
 
@@ -24,17 +24,12 @@ class DistrictRepository
   end
 
   def find_by_name(name)
-    @districts.find do |district|
-      # binding.pry
-      district.name == name.upcase
+    @districts.key?(name) ? @districts.fetch(name) : nil
+  end
+
+  def find_all_matching(frag)
+    @districts.values.find_all do |district|
+      district.name.include?(frag.upcase)
     end
   end
 end
-
-
-# [{:name=>"Colorado"},
-# {:name=>"ACADEMY 20"}]
-
-# dr = DistrictRepository.new
-# dr.load_data(:kindergarten => "./data/Kindergartners in full-day program.csv")
-# district = dr.find_by_name("ACADEMY 20")

@@ -1,7 +1,12 @@
 class Enrollment
+  attr_reader :name
 
   def initialize(data)
     @data = data
+  end
+
+  def name
+    @data.fetch(:name).upcase
   end
 
 end

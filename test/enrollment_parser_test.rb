@@ -17,7 +17,7 @@ class EnrollmentParserTest < Minitest::Test
     assert_equal locations, @p.district_data.keys
   end
 
-  
+
 
  #  def test_districts_returns_array_of_values
  #    assert_equal [{:name=>"Colorado"},

@@ -36,7 +36,6 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_districts_loads_kindergarten_sample_data
-
     @dr.load_data(file_set)
     districts_keys = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
@@ -90,6 +89,13 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal [District, District], [district_objects[0].class, district_objects[1].class]
     assert_equal "ADAMS COUNTY 14", first.name
     assert_equal "ADAMS-ARAPAHOE 28J", second.name
+  end
+
+  def test_district_repo_creates_enroll_repo_automatically
+    skip
+    @dr.load_data(file_set)
+    district = @dr.find_by_name("ACADEMY 20")
+    assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2010)
   end
 
 end

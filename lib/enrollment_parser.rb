@@ -5,11 +5,39 @@ class EnrollmentParser
 
   attr_accessor :csv
 
-  def initialize(path)
+  def initialize(file_set)
+    path = parsed_path(file_set)
     @csv = CSV.read(path, {headers: true, header_converters: :symbol}).map {|row| row.to_h}
   end
 
   def district_data
+    final_data = grouped_data.dup
+    grouped_data.each_pair do |key, value|
+      district_data_value(key, value, final_data)
+    end
+    final_data
+  end
+
+  def district_data_value(key, value, final_data)
+    districts_data_collection = {}
+    districts_data_collection[:name] = value[0].fetch(:location)
+    districts_data_collection[:kindergarten_participation] = kindergarten_participation_prep(value)
+    final_data[key] = districts_data_collection
+  end
+
+  def kindergarten_participation_prep(attributes)
+    kind_par = {}
+    attributes.each do |attribute|
+      kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
+    end
+    kind_par
+  end
+
+  def parsed_path(file_set)
+    file_set.fetch(:enrollment).fetch(:kindergarten)
+  end
+
+  def grouped_data
     @csv.group_by do |row|
       row[:location]
     end
@@ -20,23 +48,4 @@ class EnrollmentParser
       row[:location]
     end
   end
-
-
-  #
-  # def district_data_test
-  #   @csv.reduce([]) do |orig, row|
-  #     {name: row["Location"]} unless orig.include?
-  #   end.uniq
-  # end
-
-  # def enrollment_data
-  #   @csv.map do |row|
-  #     {name: row["Location"],kindergarten_participation: {row["TimeFrame"]: row["Data"]} }
-  #   end.uniq
-  # end
-
 end
-
-# dr = DistrictRepository.new
-# dr.load_data(:kindergarten => "./data/Kindergartners in full-day program.csv")
-# district = dr.find_by_name("ACADEMY 20")

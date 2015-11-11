@@ -24,12 +24,6 @@ class DistrictRepositoryTest < Minitest::Test
     assert dr = DistrictRepository.new
   end
 
-  def test_load_data_helper_finds_a_value
-    path = "./test/fixtures/sample_kindergarten.csv"
-
-    assert_equal path, @dr.path(file_set)
-  end
-
   def test_districts_starts_as_empty_array
     assert_equal 0, @dr.districts.length
     assert_equal({}, @dr.districts)

@@ -19,8 +19,8 @@ class EnrollmentParser
   end
 
   def district_data
-    final_data = grouped_data.dup
-    grouped_data.each_pair do |key, value|
+    final_data = grouped_data_by_district_name.dup
+    grouped_data_by_district_name.each_pair do |key, value|
       district_data_value(key, value, final_data)
     end
     final_data
@@ -39,13 +39,14 @@ class EnrollmentParser
       kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
     end
     kind_par
+  
   end
 
   def parsed_path(file_set)
     file_set.fetch(:enrollment).fetch(:kindergarten)
   end
 
-  def grouped_data
+  def grouped_data_by_district_name
     @csv.group_by do |row|
       row[:location]
     end

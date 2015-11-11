@@ -6,8 +6,8 @@ require './lib/district'
 class DistrictTest < Minitest::Test
 
   def setup
-    @d1 = District.new({:name => "ACADEMY 20"})
-    @d2 = District.new({:name => "Colorado"})
+    @d1 = District.new({:name => "ACADEMY 20"}, "enrollment")
+    @d2 = District.new({:name => "Colorado"}, "enrollment")
   end
 
   def test_class_exists

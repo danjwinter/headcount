@@ -4,11 +4,22 @@ class Enrollment
   def initialize(data)
     @data = data
     @name = data.fetch(:name).upcase
+    # kindergarten_participation_raw = data.fetch(:kindergarten_participation)
+    # @kindergarten_participation = clean_kindergarten_participation_numbers(kindergarten_participation_raw)
     @kindergarten_participation = data.fetch(:kindergarten_participation)
   end
 
+  def clean_kindergarten_participation_numbers(arg)
+    arg.each do |k, v|
+
+      if v.is_a?(Numeric) == false
+        kindergarten_participation[k] = "N/A"
+      end
+    end
+  end
+
   def truncate(value)
-    ((value * 1000).floor/1000.0)
+    ((value * 1000).floor/1000.0) unless value.class == String
   end
 
   def kindergarten_participation_in_year(year)
@@ -16,11 +27,9 @@ class Enrollment
   end
 
   def kindergarten_participation_by_year
-    kind_part = {}
-    @kindergarten_participation.each_pair do |key, value|
-      kind_part[key] = truncate(value)
+    kindergarten_participation.each do |k, v|
+      kindergarten_participation[k] = truncate(v)
     end
-    kind_part
   end
 
 end

@@ -7,10 +7,15 @@ class EnrollmentTest < Minitest::Test
 
   def setup
     @en = Enrollment.new(enrollment_input_data)
+    @en_bad = Enrollment.new(enrollment_bad_data)
   end
 
   def enrollment_input_data
     {:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}}
+  end
+
+  def enrollment_bad_data
+    {:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => "APPLESAUCE"}}
   end
 
   def test_class_exists
@@ -32,6 +37,12 @@ class EnrollmentTest < Minitest::Test
 
   def test_kindgergarten_participation_in_year_with_sad_year_returns_nil
     assert_equal nil, @en.kindergarten_participation_in_year(1776)
+  end
+
+  def test_bad_data_is_cleaned_up
+    output_data = {2010 => 0.3915, 2011 => 0.35356, 2012 => "N/A"}
+
+    assert_equal output_data, @en_bad.clean_kindergarten_participation_numbers
   end
 
 end

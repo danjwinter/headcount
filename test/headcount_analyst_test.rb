@@ -25,6 +25,7 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_kindergarten_participation_rate_variation_is_accurate_against_state
     kprv = @ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+
     assert_equal 1.002, kprv
   end
 

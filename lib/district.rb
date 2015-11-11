@@ -4,10 +4,10 @@ class District
   attr_accessor :data
   attr_reader :name, :enrollment
 
-  def initialize(data)
+  def initialize(data, enrollment)
     @data = data
     @name = data.fetch(:name).upcase
-    @enrollment = Enrollment.new(data)
+    @enrollment = enrollment
   end
 
 end

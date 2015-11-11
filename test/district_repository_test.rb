@@ -40,15 +40,28 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal districts_keys, @dr.districts.keys
   end
 
-  def test_districts_are_found_by_name
+  def test_districts_are_found_by_name_with_capitalized_name
     @dr.load_data(file_set)
-    district_object1 = @dr.find_by_name("Colorado")
-    district_object2 = @dr.find_by_name("ACADEMY 20")
+    district_object2 = @dr.find_by_name("Academy 20")
+
+    assert_equal "ACADEMY 20", district_object2.name
+    assert_equal District, district_object2.class
+  end
+
+  def test_district_are_found_by_name_with_all_lowercase_letters
+    @dr.load_data(file_set)
+    district_object1 = @dr.find_by_name("academy 20")
+
+    assert_equal "ACADEMY 20", district_object1.name
+    assert_equal District, district_object1.class
+  end
+
+  def test_districts_are_found_by_name_with_all_caps
+    @dr.load_data(file_set)
+    district_object1 = @dr.find_by_name("COLORADO")
 
     assert_equal "COLORADO", district_object1.name
     assert_equal District, district_object1.class
-    assert_equal "ACADEMY 20", district_object2.name
-    assert_equal District, district_object2.class
   end
 
   def test_districts_are_not_found_if_name_doesnt_exist

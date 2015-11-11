@@ -9,31 +9,18 @@ class EnrollmentRepository
     @enrollments = {}
   end
 
-  def path(file_set)
-    file_set.fetch(:enrollment).fetch(:kindergarten)
+  def load_attributes(attribute)
+    enrollments[enrollment] = Enrollment.new(attribute)
   end
 
-  def load_data(file_set)
-    parsed_enrollment_data(file_set).each_pair do |enrollment, attributes|
-      enrollments_data = {}
-      enrollments_data[:name] = attributes[0].fetch(:location).upcase
-
-      enrollments_data[:kindergarten_participation] = kindergarten_participation_prep(attributes)
-
-      enrollments[enrollment] = Enrollment.new(enrollments_data)
+  def load_enrollment_data(file_set)
+    parsed_enrollment_data(file_set).each_pair do |enrollment, attribute|
+      enrollments[enrollment] = Enrollment.new(attribute)
      end
   end
 
-  def kindergarten_participation_prep(attributes)
-    kind_par = {}
-    attributes.each do |attribute|
-      kind_par[attribute.fetch(:timeframe)] = attribute.fetch(:data).to_i
-    end
-    kind_par
-  end
-
   def parsed_enrollment_data(file_set)
-    EnrollmentParser.new(path(file_set)).enrollment_data
+    EnrollmentParser.new(file_set).district_data
   end
 
   def find_by_name(name)

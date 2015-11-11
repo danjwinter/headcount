@@ -1,6 +1,7 @@
 require_relative 'enrollment_parser'
 require_relative 'district'
 require_relative 'enrollment_repository'
+require_relative 'parser_repository'
 require 'pry'
 
 class DistrictRepository
@@ -24,7 +25,7 @@ class DistrictRepository
   end
 
   def parsed_district_data(file_set)
-    EnrollmentParser.new(file_set).district_data
+    ParserRepository.new(file_set).parsed
   end
 
   def find_by_name(name)

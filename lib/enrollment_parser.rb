@@ -13,8 +13,8 @@ class EnrollmentParser
 
   attr_accessor :csv
 
-  def initialize(file_set)
-    path = parsed_path(file_set)
+  def initialize(path)
+    # path = parsed_path(file_set)
     @csv = CSV.read(path, {headers: true, header_converters: :symbol}).map {|row| row.to_h}
   end
 
@@ -39,7 +39,7 @@ class EnrollmentParser
       kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
     end
     kind_par
-  
+
   end
 
   def parsed_path(file_set)

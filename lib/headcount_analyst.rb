@@ -18,6 +18,16 @@ class HeadcountAnalyst
     truncate(average_d1 / average_d2)
   end
 
+  def kindergarten_participation_rate_variation_trend(district1_name, vs_district2_name )
+    d1_yearly_data = district1(district1_name).enrollment.kindergarten_participation_by_year
+    d2_yearly_data = district2(vs_district2_name).enrollment.kindergarten_participation_by_year
+    final_yearly_data = {}
+    d1_yearly_data.each_pair do |key, value|
+      final_yearly_data[key] = truncate((value + d2_yearly_data[key]) / 2)
+    end
+    final_yearly_data.sort.to_h
+  end
+
   def district1(district1_name)
     dr.find_by_name(district1_name)
   end
@@ -37,9 +47,10 @@ class HeadcountAnalyst
   end
 
   def participation_by_year(district_name)
-    # binding.pry
     district_name.enrollment.kindergarten_participation_by_year.values
   end
+
+
 
 
 end

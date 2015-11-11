@@ -37,11 +37,11 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_districts_loads_kindergarten_sample_data
     @dr.load_data(file_set)
-    districts_keys = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
+    districts_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
     assert_equal 4, @dr.districts.count
     assert_equal [District, District, District, District], @dr.districts.values.map {|ob| ob.class}
-    assert_equal District, @dr.districts.fetch("Colorado").class
+    assert_equal District, @dr.districts.fetch("COLORADO").class
     assert_equal District, @dr.districts.fetch("ACADEMY 20").class
     assert_equal districts_keys, @dr.districts.keys
   end

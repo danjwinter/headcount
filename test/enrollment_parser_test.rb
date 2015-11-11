@@ -11,6 +11,13 @@ class EnrollmentParserTest < Minitest::Test
     }
   end
 
+  def file_set_2
+    {:enrollment => {
+       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    }
+  end
+
   def raw_kind_prep_data
     [{:location=>"ADAMS COUNTY 14", :timeframe=>"2007", :dataformat=>"Percent", :data=>"0.30643"},
    {:location=>"ADAMS COUNTY 14", :timeframe=>"2006", :dataformat=>"Percent", :data=>"0.29331"},

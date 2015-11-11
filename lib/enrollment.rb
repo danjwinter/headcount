@@ -9,14 +9,14 @@ class Enrollment
     @kindergarten_participation = data.fetch(:kindergarten_participation)
   end
 
-  def clean_kindergarten_participation_numbers(arg)
-    arg.each do |k, v|
-
-      if v.is_a?(Numeric) == false
-        kindergarten_participation[k] = "N/A"
-      end
-    end
-  end
+  # def clean_kindergarten_participation_numbers(arg)
+  #   arg.each do |k, v|
+  #
+  #     if v.is_a?(Numeric) == false
+  #       kindergarten_participation[k] = "N/A"
+  #     end
+  #   end
+  # end
 
   def truncate(value)
     ((value * 1000).floor/1000.0) unless value.class == String

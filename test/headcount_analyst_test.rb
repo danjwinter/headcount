@@ -74,9 +74,15 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_hs_graduation_rate_is_accurate_vs_state
-    kprv = @ha.hs_graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+    hsgr = @ha.hs_graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
 
-    assert_equal 1.209, kprv
+    assert_equal 1.209, hsgr
+  end
+
+  def test_kindergarten_participation_against_high_school_graduation_rate
+    kpahsg = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+
+    assert_equal 0.828, kpahsg
   end
 
 end

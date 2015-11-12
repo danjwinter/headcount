@@ -19,10 +19,15 @@ class HeadcountAnalyst
   end
 
   def hs_graduation_rate_variation(district1_name, vs_district2_name)
-    # WILL CALCULATE THE VARIATION BETWEEN A GIVEN DISTRICT AND THE STATE AVERAGE
     average_d1 = average_participation(district1(district1_name), "hs")
     average_d2 = average_participation(district2(vs_district2_name), "hs")
     rate_variation_data_guard(average_d1, average_d2)
+  end
+
+  def kindergarten_participation_against_high_school_graduation(district_name)
+    kprv = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO')
+    hsgr = hs_graduation_rate_variation(district_name, :against => 'COLORADO')
+    truncate(kprv/hsgr)
   end
 
   def rate_variation_data_guard(average_d1, average_d2)

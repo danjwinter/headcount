@@ -5,7 +5,7 @@ class District
 
   def initialize(data, enrollment)
     @name = data.fetch(:name).upcase
-    @enrollment = enrollment
+    @enrollment ||= enrollment
   end
 
 end

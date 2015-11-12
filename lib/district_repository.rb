@@ -11,7 +11,6 @@ class DistrictRepository
   end
 
   def load_data(file_set)
-    # enrollment_repo_setup(file_set)
     parsed_district_data(file_set).each do |category_data|
       enrollment_repo_setup(category_data)
       create_districts(category_data, file_set)
@@ -20,16 +19,13 @@ class DistrictRepository
 
   def create_districts(category_data, file_set)
     category_data.each do |district_name, attributes|
-      if districts[district_name.upcase].nil?
-        districts[district_name.upcase] =  District.new(attributes, enrollment_repository.find_by_name(district_name))
-     end
+        districts[district_name.upcase] ||=  District.new(attributes, enrollment_repository.find_by_name(district_name))
    end
  end
 
   def enrollment_repo_setup(category_data)
     @enrollment_repository ||= EnrollmentRepository.new
     @enrollment_repository.load_enrollments(category_data)
-    # @enrollment_repository.load_enrollment_data(file_set)
   end
 
   def parsed_district_data(file_set)

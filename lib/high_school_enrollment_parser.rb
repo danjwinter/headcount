@@ -3,14 +3,6 @@ require 'pry'
 
 class HighSchoolEnrollmentParser
 
-# NEW ITERATION 1 FILESET
-#   ({
-#  :enrollment => {
-#    :kindergarten => "./data/Kindergartners in full-day program.csv",
-#    :high_school_graduation => "./data/High school graduation rates.csv"
-#  }
-# })
-
   attr_accessor :csv
 
   def initialize(path)

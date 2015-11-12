@@ -47,8 +47,6 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal d_records_keys, @dr.d_records.keys
   end
 
-  # def test_districts
-
   def test_districts_are_found_by_name_with_capitalized_name
     @dr.load_data(file_set)
     district_object2 = @dr.find_by_name("Academy 20")
@@ -113,11 +111,16 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2007)
   end
 
-  ############################################
-  # ITERATION 1
+  def test_enrollment_repository_defaults_to_falsey
+    refute @dr.enrollment_repository
+  end
 
-  def test_load_file_set_2_works
-    skip
+  def test_enrollment_repository_is_created_when_files_are_loaded
+    @dr.load_data(file_set)
+    assert @dr.enrollment_repository
+
+    assert_equal Enrollment, @dr.enrollment_repository.e_records.values.first.class
+    assert @dr.enrollment_repository.e_records.count > 2
   end
 
 end

@@ -4,14 +4,14 @@ require_relative 'parser_repository'
 require 'pry'
 
 class EnrollmentRepository
-  attr_accessor :enrollments
+  attr_accessor :e_records
 
   def initialize
-    @enrollments = {}
+    @e_records = {}
   end
 
   def load_attributes(attribute)
-    enrollments[enrollment] = Enrollment.new(attribute)
+    e_records[enrollment] = Enrollment.new(attribute)
   end
 
   def load_enrollment_data(file_set)
@@ -22,12 +22,10 @@ class EnrollmentRepository
 
   def load_enrollments(category_data)
     category_data.each_pair do |enrollment, attribute|
-      if enrollments[enrollment].nil?
-        enrollments[enrollment] = Enrollment.new(enrollment)
-        enrollments[enrollment].load_new_data(attribute)
-      else
-        enrollments[enrollment].load_new_data(attribute)
+      if e_records[enrollment].nil?
+        e_records[enrollment] = Enrollment.new(enrollment)
       end
+      e_records[enrollment].load_new_data(attribute)
     end
   end
 
@@ -36,12 +34,6 @@ class EnrollmentRepository
   end
 
   def find_by_name(name)
-    @enrollments.key?(name) ? @enrollments.fetch(name) : nil
+    @e_records.key?(name) ? @e_records.fetch(name) : nil
   end
-
-  # def find_all_matching(frag)
-  #   @enrollments.values.find_all do |enrollment|
-  #     enrollment.name.include?(frag.upcase)
-  #   end
-  # end
 end

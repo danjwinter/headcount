@@ -10,10 +10,10 @@ class DistrictRepository
     @districts = {}
   end
 
-  #attributes = {:name=>"Colorado", :kindergarten_participation=>{2007=>0.39465, 2006=>0.33677, 2005=>0.27807}}
   def load_data(file_set)
-    enrollment_repo_setup(file_set)
+    # enrollment_repo_setup(file_set)
     parsed_district_data(file_set).each do |category_data|
+      enrollment_repo_setup(category_data)
       create_districts(category_data, file_set)
     end
   end
@@ -26,9 +26,10 @@ class DistrictRepository
    end
  end
 
-  def enrollment_repo_setup(file_set)
-    @enrollment_repository = EnrollmentRepository.new
-    @enrollment_repository.load_enrollment_data(file_set)
+  def enrollment_repo_setup(category_data)
+    @enrollment_repository ||= EnrollmentRepository.new
+    @enrollment_repository.load_enrollments(category_data)
+    # @enrollment_repository.load_enrollment_data(file_set)
   end
 
   def parsed_district_data(file_set)

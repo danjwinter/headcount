@@ -24,6 +24,10 @@ class Enrollment
     kindergarten_participation_by_year[year]
   end
 
+  def graduation_rate_in_year(year)
+    graduation_rate_by_year[year]
+  end
+
   def kindergarten_participation_by_year
     kindergarten_participation.each do |k, v|
       kindergarten_participation[k] = truncate(v)
@@ -31,7 +35,7 @@ class Enrollment
   end
 
   def load_new_data(attribute)
-    @kindergarten_participation ||= attribute.fetch(:kindergarten_participation)
+    @kindergarten_participation ||= attribute[:kindergarten_participation]
     @graduation_rate_by_year ||= attribute[:high_school_graduation]
   end
 

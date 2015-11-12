@@ -60,10 +60,15 @@ class EnrollmentTest < Minitest::Test
     {:high_school_graduation=>{2010=>0.455, 2011=>0.485, 2012=>0.47984}}
   end
 
-  # def test_high_school_graduation_is_loaded_into_district_repository
-  #   @en.load_new_data(hs_load_data)
-  #   adams_arapaho_hs_grad_data = {2010=>0.455, 2011=>0.485, 2012=>0.47984}
-  #   assert_equal adams_arapaho_hs_grad_data,
-  # end
+  def test_high_school_graduation_is_loaded_into_district_repository
+    @en.load_new_data(hs_load_data)
+    adams_arapahoe_hs_grad_data = {2010=>0.455, 2011=>0.485, 2012=>0.47984}
+    assert_equal adams_arapahoe_hs_grad_data, @en.graduation_rate_by_year
+  end
+
+  def test_graduation_rate_in_year_by_year_returns_accurate_data
+    @en.load_new_data(hs_load_data)
+    assert_equal 0.455, @en.graduation_rate_in_year(2010)
+  end
 
 end

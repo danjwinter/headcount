@@ -8,8 +8,8 @@ class HeadcountAnalystTest < Minitest::Test
 
   def file_set
     {:enrollment => {
-      :kindergarten => "./test/fixtures/sample_kindergarten.csv"
-      }
+       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
     }
   end
 
@@ -53,16 +53,16 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_sum_participation_rate_adds_values_from_a_district
     district = @dr.find_by_name("ACADEMY 20")
-    assert_equal 1.0110000000000001, @ha.sum_participation_rate(district)
-    refute_equal 1, @ha.sum_participation_rate(district)
+    assert_equal 1.0110000000000001, @ha.sum_participation_rate(district, "kind")
+    refute_equal 1, @ha.sum_participation_rate(district, "kind")
   end
 
   def test_participation_by_year_returns_array_of_values
     district = @dr.find_by_name("ACADEMY 20")
-    assert_equal [0.391, 0.353, 0.267], @ha.participation_by_year(district)
+    assert_equal [0.391, 0.353, 0.267], @ha.participation_by_year(district, "kind")
   end
 
-  def test_kindergarten_participation_rate_variation_is_accurate_for_against_district
+  def test_kindergarten_participation_rate_variation_is_accurate_against_district
     kprv = @ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'ADAMS COUNTY 14')
     assert_equal 1.124, kprv
   end
@@ -71,6 +71,12 @@ class HeadcountAnalystTest < Minitest::Test
     variation_rate = @ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
 
     assert_equal({2005=>0.272, 2006=>0.344, 2007=>0.392}, variation_rate)
+  end
+
+  def test_hs_graduation_rate_is_accurate_vs_state
+    kprv = @ha.hs_graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
+
+    assert_equal 1.209, kprv
   end
 
 end

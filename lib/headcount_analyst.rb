@@ -13,8 +13,15 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation(district1_name, vs_district2_name )
-    average_d1 = average_kindergarten_participation(district1(district1_name))
-    average_d2 = average_kindergarten_participation(district2(vs_district2_name))
+    average_d1 = average_participation(district1(district1_name), "kind")
+    average_d2 = average_participation(district2(vs_district2_name), "kind")
+    rate_variation_data_guard(average_d1, average_d2)
+  end
+
+  def hs_graduation_rate_variation(district1_name, vs_district2_name)
+    # WILL CALCULATE THE VARIATION BETWEEN A GIVEN DISTRICT AND THE STATE AVERAGE
+    average_d1 = average_participation(district1(district1_name), "hs")
+    average_d2 = average_participation(district2(vs_district2_name), "hs")
     rate_variation_data_guard(average_d1, average_d2)
   end
 
@@ -48,17 +55,27 @@ class HeadcountAnalyst
     dr.find_by_name(vs_district2_name.fetch(:against))
   end
 
-  def average_kindergarten_participation(district)
-    sum_participation_rate(district) / participation_by_year(district).length
+  def average_participation(district, category)
+    sum_participation_rate(district, category) / participation_by_year(district, category).length
   end
 
-  def sum_participation_rate(district)
-    participation_by_year(district).inject(0.0) do |sum, val|
+  def sum_participation_rate(district, category)
+    participation_by_year(district, category).inject(0.0) do |sum, val|
       sum + val
     end
   end
 
-  def participation_by_year(district_name)
-    district_name.enrollment.kindergarten_participation_by_year.values
+  def participation_by_year(district_name, category)
+    case category
+    when "kind"
+      district_name.enrollment.kindergarten_participation_by_year.values
+    when "hs"
+      district_name.enrollment.graduation_rate_by_year.values
+    end
   end
+
+
+
+
+
 end

@@ -1,5 +1,6 @@
 require_relative './district_repository'
 require 'pry'
+
 class HeadcountAnalyst
 
   attr_reader :dr
@@ -18,9 +19,20 @@ class HeadcountAnalyst
     rate_variation_data_guard(average_d1, average_d2)
   end
 
-  def hs_graduation_rate_variation(district1_name, vs_district2_name)
-    average_d1 = average_participation(district1(district1_name), "hs")
-    average_d2 = average_participation(district2(vs_district2_name), "hs")
+  def hs_graduation_rate_variation(district1_name, compare_opts)
+    # avg = [district1_name, vs_district2_name[:against]].map do |dname|
+    #   dr.find_by_name(dname)
+    # end.map do |district|
+    #   average_participation(district, "hs")
+    # end.reduce(:/)
+    #
+    # truncate(avg)
+
+
+    d1 = dr.find_by_name(district1_name)
+    d2 = dr.find_by_name(compare_opts[:against])
+    average_d1 = average_participation(d1, "hs")
+    average_d2 = average_participation(d2, "hs")
     rate_variation_data_guard(average_d1, average_d2)
   end
 
@@ -30,10 +42,28 @@ class HeadcountAnalyst
     truncate(kprv/hsgr)
   end
 
+  def non_co_district_names
+    non_co_district_names = dr.districts.keys - ["COLORADO"]
+  end
+
   def kindergarten_participation_correlates_with_high_school_graduation(for_district_name)
-    district_name = for_district_name.fetch(:for)
-    kind_to_hs_variation = kindergarten_participation_against_high_school_graduation(district_name)
-    (0.6..1.5).include?(kind_to_hs_variation)
+    # {:for => "Adams 14"} -> get that 1
+    # {:for => "Colorado"} -> add up all
+    #   -> {:across => everything that is not colorado}
+    # {:across => ["d1", "d2"]}
+    district_name = for_district_name[:for]
+    if district_name && district_name.upcase == "COLORADO"
+       kindergarten_participation_correlates_with_high_school_graduation(across: non_co_district_names)
+    elsif for_district_name.keys == [:across]
+      dists = for_district_name[:across]
+      matching_count = dists.select do |dname|
+        kindergarten_participation_correlates_with_high_school_graduation(for: dname)
+      end.count
+      matching_count.to_f / dists.count.to_f >= 0.7
+    else
+      kind_to_hs_variation = kindergarten_participation_against_high_school_graduation(district_name)
+      (0.6..1.5).include?(kind_to_hs_variation)
+    end
   end
 
   def rate_variation_data_guard(average_d1, average_d2)

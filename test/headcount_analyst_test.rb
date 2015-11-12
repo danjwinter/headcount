@@ -13,6 +13,12 @@ class HeadcountAnalystTest < Minitest::Test
     }
   end
 
+  def file_set_stellar
+    {:enrollment => {
+       :kindergarten => "./test/fixtures/sample_kindergarten_stellar.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school_stellar.csv" }}
+  end
+
   def setup
     @dr = DistrictRepository.new
     @dr.load_data(file_set)
@@ -88,5 +94,23 @@ class HeadcountAnalystTest < Minitest::Test
   def test_correlation_window_between_kind_par_and_hsgr
     assert @ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
   end
+
+  def test_kindergarten_participation_corrs_wtih_hs_g_in_state_fails
+
+    refute @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO')
+  end
+
+  def test_kindergarten_participation_corrs_wtih_hs_g_in_state_passes
+    @dr.load_data(file_set_stellar)
+    assert @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO')
+  end
+
+  def test_kindergarten_participation_corrs_wtih_hs_g_in_state_passes
+    @dr.load_data(file_set_stellar)
+    assert @ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'STELLAR SCHOOL', 'ADAMS COUNTY 14'])
+  end
+
+
+
 
 end

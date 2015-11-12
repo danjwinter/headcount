@@ -32,12 +32,16 @@ class ParserRepositoryTest < Minitest::Test
   def test_direct_path_directs_to_kindergarten_path
     kindergarten_data = @pr.parsed.first
     first_kindergarten_school = kindergarten_data.first
-    first_kindergarten_school_name = first_kindergarten_school.first
-    assert_equal "Colorado", first_kindergarten_school_name
+    first_k_school_data = first_kindergarten_school[1]
+
+    assert first_k_school_data.keys.include?(:kindergarten_participation)
   end
 
-  
+  def test_direct_path_directs_to_hs_path
+    hs_data = @pr.parsed[1]
+    first_hs_school = hs_data.first
+    first_hs_school_data = first_hs_school[1]
 
-
-
+    assert first_hs_school_data.keys.include?(:high_school_graduation)
+  end
 end

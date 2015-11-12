@@ -1,8 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/enrollment_parser'
+require './lib/kindergarten_enrollment_parser'
 
-class EnrollmentParserTest < Minitest::Test
+class KindergartenEnrollmentParserTest < Minitest::Test
 
   def file_set_kindergarten
       "./test/fixtures/sample_kindergarten.csv"
@@ -19,7 +19,7 @@ class EnrollmentParserTest < Minitest::Test
   end
 
   def setup
-    @ep = EnrollmentParser.new(file_set_kindergarten)
+    @ep = KindergartenEnrollmentParser.new(file_set_kindergarten)
   end
 
   def test_parser_creates_array_of_one_hash_upon_initialization

@@ -1,4 +1,4 @@
-require_relative './enrollment_parser'
+require_relative './kindergarten_enrollment_parser'
 require 'pry'
 
 class ParserRepository
@@ -9,12 +9,14 @@ class ParserRepository
   end
 
   def parsed
-    if high_school_path(enrollment)
-      #send to highschool_parser
-    end
+    parsed_category_data = []
     if kindergarten_path(enrollment)
-      EnrollmentParser.new(kindergarten_path(enrollment)).district_data
+      parsed_category_data << KindergartenEnrollmentParser.new(kindergarten_path(enrollment)).district_data
     end
+    if high_school_path(enrollment)
+      # parsed_category_data << EnrollmentParser.new(high_school_path(enrollment)).high_school_district_data
+    end
+    parsed_category_data
   end
 
 

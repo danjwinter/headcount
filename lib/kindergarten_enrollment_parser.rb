@@ -1,7 +1,7 @@
 require 'csv'
 require 'pry'
 
-class EnrollmentParser
+class KindergartenEnrollmentParser
 
 # NEW ITERATION 1 FILESET
 #   ({

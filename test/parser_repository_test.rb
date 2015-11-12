@@ -30,8 +30,13 @@ class ParserRepositoryTest < Minitest::Test
   end
 
   def test_direct_path_directs_to_kindergarten_path
-    assert_equal "Colorado", @pr.parsed.first.first
+    kindergarten_data = @pr.parsed.first
+    first_kindergarten_school = kindergarten_data.first
+    first_kindergarten_school_name = first_kindergarten_school.first
+    assert_equal "Colorado", first_kindergarten_school_name
   end
+
+  
 
 
 

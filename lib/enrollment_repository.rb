@@ -1,4 +1,4 @@
-require_relative 'enrollment_parser'
+require_relative 'kindergarten_enrollment_parser'
 require_relative 'enrollment'
 require_relative 'parser_repository'
 require 'pry'
@@ -15,9 +15,11 @@ class EnrollmentRepository
   end
 
   def load_enrollment_data(file_set)
-    parsed_enrollment_data(file_set).each_pair do |enrollment, attribute|
-      enrollments[enrollment] = Enrollment.new(attribute)
-     end
+    parsed_enrollment_data(file_set).each do |category_data|
+      category_data.each_pair do |enrollment, attribute|
+        enrollments[enrollment] = Enrollment.new(attribute)
+      end
+    end
   end
 
   def parsed_enrollment_data(file_set)

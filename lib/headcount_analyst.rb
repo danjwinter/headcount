@@ -30,6 +30,12 @@ class HeadcountAnalyst
     truncate(kprv/hsgr)
   end
 
+  def kindergarten_participation_correlates_with_high_school_graduation(for_district_name)
+    district_name = for_district_name.fetch(:for)
+    kind_to_hs_variation = kindergarten_participation_against_high_school_graduation(district_name)
+    (0.6..1.5).include?(kind_to_hs_variation)
+  end
+
   def rate_variation_data_guard(average_d1, average_d2)
     if average_d1 == "N/A" || average_d2 == "N/A"
       return "N/A"

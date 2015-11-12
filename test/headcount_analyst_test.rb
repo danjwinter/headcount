@@ -85,4 +85,8 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal 0.828, kpahsg
   end
 
+  def test_correlation_window_between_kind_par_and_hsgr
+    assert @ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+  end
+
 end

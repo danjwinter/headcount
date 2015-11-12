@@ -43,7 +43,7 @@ class HeadcountAnalyst
   end
 
   def non_co_district_names
-    non_co_district_names = dr.districts.keys - ["COLORADO"]
+    non_co_district_names = dr.d_records.keys - ["COLORADO"]
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district_name)

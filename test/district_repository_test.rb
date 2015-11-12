@@ -23,29 +23,31 @@ class DistrictRepositoryTest < Minitest::Test
     }
   end
 
-  def find_class_of_objects_in_districts
-    @dr.districts.map {|dis| dis.class}
+  def find_class_of_objects_in_d_records
+    @dr.d_records.map {|dis| dis.class}
   end
 
   def test_class_exists
     assert dr = DistrictRepository.new
   end
 
-  def test_districts_starts_as_empty_array
-    assert_equal 0, @dr.districts.length
-    assert_equal({}, @dr.districts)
+  def test_d_records_starts_as_empty_hash
+    assert_equal 0, @dr.d_records.length
+    assert_equal({}, @dr.d_records)
   end
 
-  def test_districts_loads_kindergarten_sample_data
+  def test_d_records_loads_kindergarten_sample_data
     @dr.load_data(file_set)
-    districts_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
+    d_records_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
-    assert_equal 4, @dr.districts.count
-    assert_equal [District, District, District, District], @dr.districts.values.map {|ob| ob.class}
-    assert_equal District, @dr.districts.fetch("COLORADO").class
-    assert_equal District, @dr.districts.fetch("ACADEMY 20").class
-    assert_equal districts_keys, @dr.districts.keys
+    assert_equal 4, @dr.d_records.count
+    assert_equal [District, District, District, District], @dr.d_records.values.map {|ob| ob.class}
+    assert_equal District, @dr.d_records.fetch("COLORADO").class
+    assert_equal District, @dr.d_records.fetch("ACADEMY 20").class
+    assert_equal d_records_keys, @dr.d_records.keys
   end
+
+  # def test_districts
 
   def test_districts_are_found_by_name_with_capitalized_name
     @dr.load_data(file_set)

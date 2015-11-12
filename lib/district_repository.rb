@@ -4,10 +4,10 @@ require_relative 'parser_repository'
 require 'pry'
 
 class DistrictRepository
-  attr_accessor :districts, :enrollment_repository
+  attr_accessor :d_records, :enrollment_repository
 
   def initialize
-    @districts = {}
+    @d_records = {}
   end
 
   def load_data(file_set)
@@ -19,7 +19,7 @@ class DistrictRepository
 
   def create_districts(category_data, file_set)
     category_data.each do |district_name, attributes|
-        districts[district_name.upcase] ||=  District.new(attributes, enrollment_repository.find_by_name(district_name))
+        d_records[district_name.upcase] ||=  District.new(attributes, enrollment_repository.find_by_name(district_name))
    end
  end
 
@@ -33,11 +33,11 @@ class DistrictRepository
   end
 
   def find_by_name(name)
-    @districts.key?(name.upcase) ? @districts.fetch(name.upcase) : nil
+    @d_records.key?(name.upcase) ? @d_records.fetch(name.upcase) : nil
   end
 
   def find_all_matching(frag)
-    @districts.values.find_all do |district|
+    @d_records.values.find_all do |district|
       district.name.include?(frag.upcase)
     end
   end

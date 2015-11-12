@@ -10,6 +10,13 @@ class DistrictTest < Minitest::Test
     @d2 = District.new({:name => "Colorado"}, "enrollment")
   end
 
+  def file_set
+    {:enrollment => {
+       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    }
+  end
+
   def test_class_exists
     assert @d1
   end
@@ -22,6 +29,19 @@ class DistrictTest < Minitest::Test
   def test_name_is_not_still_lowercase
     refute_equal "Colorado", @d2.name
     refute_equal "Academy 20", @d1.name
+  end
+
+  def test_district_points_to_correct_enrollment
+    @dr = DistrictRepository.new
+    @dr.load_data(file_set)
+    ac20obj = @dr.find_by_name("Academy 20")
+    ad14obj = @dr.find_by_name("Adams County 14")
+
+    assert_equal "ACADEMY 20", ac20obj.name
+    assert_equal "ACADEMY 20", ac20obj.enrollment.name
+
+    assert_equal "ADAMS COUNTY 14", ad14obj.name
+    assert_equal "ADAMS COUNTY 14", ad14obj.enrollment.name
   end
 
 

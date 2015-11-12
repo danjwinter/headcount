@@ -7,5 +7,4 @@ class District
     @name = data.fetch(:name).upcase
     @enrollment ||= enrollment
   end
-
 end

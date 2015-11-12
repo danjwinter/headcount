@@ -14,10 +14,6 @@ class DistrictTest < Minitest::Test
     assert @d1
   end
 
-  def test_data_is_stored_as_an_instance_variable
-    assert_equal({:name => "ACADEMY 20"}, @d1.data)
-  end
-
   def test_name_returns_upcased_string_of_district
     assert_equal "ACADEMY 20", @d1.name
     assert_equal "COLORADO", @d2.name

@@ -16,6 +16,13 @@ class DistrictRepositoryTest < Minitest::Test
     }
   end
 
+  def file_set_2
+    {:enrollment => {
+       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    }
+  end
+
   def find_class_of_objects_in_districts
     @dr.districts.map {|dis| dis.class}
   end
@@ -102,6 +109,13 @@ class DistrictRepositoryTest < Minitest::Test
     @dr.load_data(file_set)
     district = @dr.find_by_name("ACADEMY 20")
     assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2007)
+  end
+
+  ############################################
+  # ITERATION 1
+
+  def test_load_file_set_2_works
+    skip
   end
 
 end

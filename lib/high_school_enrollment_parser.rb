@@ -13,8 +13,7 @@ class HighSchoolEnrollmentParser
 
   attr_accessor :csv
 
-  def initialize(file_set)
-    path = parsed_path(file_set)
+  def initialize(path)
     @csv = CSV.read(path, {headers: true, header_converters: :symbol}).map {|row| row.to_h}
   end
 
@@ -34,16 +33,11 @@ class HighSchoolEnrollmentParser
   end
 
   def high_school_graduation_prep(attributes)
-    kind_par = {}
+    high_grad = {}
     attributes.each do |attribute|
-      kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
+      high_grad[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
     end
-    kind_par
-
-  end
-
-  def parsed_path(file_set)
-    file_set.fetch(:enrollment).fetch(:high_school_graduation)
+    high_grad
   end
 
   def grouped_data_by_district_name

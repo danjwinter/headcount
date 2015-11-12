@@ -1,12 +1,10 @@
 class Enrollment
-  attr_reader :name, :kindergarten_participation
+  attr_reader :name, :kindergarten_participation, :graduation_rate_by_year
 
   def initialize(data)
-    @data = data
-    @name = data.fetch(:name).upcase
+    @name = data.upcase
     # kindergarten_participation_raw = data.fetch(:kindergarten_participation)
     # @kindergarten_participation = clean_kindergarten_participation_numbers(kindergarten_participation_raw)
-    @kindergarten_participation = data.fetch(:kindergarten_participation)
   end
 
   # def clean_kindergarten_participation_numbers(arg)
@@ -30,6 +28,11 @@ class Enrollment
     kindergarten_participation.each do |k, v|
       kindergarten_participation[k] = truncate(v)
     end
+  end
+
+  def load_new_data(attribute)
+    @kindergarten_participation ||= attribute.fetch(:kindergarten_participation)
+    @graduation_rate_by_year ||= attribute[:high_school_graduation]
   end
 
 end

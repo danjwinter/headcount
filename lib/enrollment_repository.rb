@@ -17,20 +17,10 @@ class EnrollmentRepository
   def load_enrollment_data(file_set)
     parsed_enrollment_data(file_set).each do |category_data|
       load_enrollments(category_data)
-
-      # category_data.each_pair do |enrollment, attribute|
-      #   if enrollments[enrollment].nil?
-      #     enrollments[enrollment] = Enrollment.new(enrollment)
-      #     enrollments[enrollment].load_new_data(attribute)
-      #   else
-      #     enrollments[enrollment].load_new_data(attribute)
-      #   end
-      # end
     end
   end
 
   def load_enrollments(category_data)
-    # binding.pry
     category_data.each_pair do |enrollment, attribute|
       if enrollments[enrollment].nil?
         enrollments[enrollment] = Enrollment.new(enrollment)
@@ -40,7 +30,6 @@ class EnrollmentRepository
       end
     end
   end
-
 
   def parsed_enrollment_data(file_set)
     ParserRepository.new(file_set).parsed

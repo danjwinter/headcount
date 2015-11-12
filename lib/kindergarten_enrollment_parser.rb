@@ -3,18 +3,9 @@ require 'pry'
 
 class KindergartenEnrollmentParser
 
-# NEW ITERATION 1 FILESET
-#   ({
-#  :enrollment => {
-#    :kindergarten => "./data/Kindergartners in full-day program.csv",
-#    :high_school_graduation => "./data/High school graduation rates.csv"
-#  }
-# })
-
   attr_accessor :csv
 
   def initialize(path)
-    # path = parsed_path(file_set)
     @csv = CSV.read(path, {headers: true, header_converters: :symbol}).map {|row| row.to_h}
   end
 
@@ -39,7 +30,6 @@ class KindergartenEnrollmentParser
       kind_par[attribute.fetch(:timeframe).to_i] = attribute.fetch(:data).to_f
     end
     kind_par
-
   end
 
   def parsed_path(file_set)

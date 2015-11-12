@@ -3,18 +3,7 @@ class Enrollment
 
   def initialize(data)
     @name = data.upcase
-    # kindergarten_participation_raw = data.fetch(:kindergarten_participation)
-    # @kindergarten_participation = clean_kindergarten_participation_numbers(kindergarten_participation_raw)
   end
-
-  # def clean_kindergarten_participation_numbers(arg)
-  #   arg.each do |k, v|
-  #
-  #     if v.is_a?(Numeric) == false
-  #       kindergarten_participation[k] = "N/A"
-  #     end
-  #   end
-  # end
 
   def truncate(value)
     ((value * 1000).floor/1000.0) unless value.class == String
@@ -40,5 +29,3 @@ class Enrollment
   end
 
 end
-
-# e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677})

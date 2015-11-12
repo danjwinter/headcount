@@ -5,6 +5,14 @@ require 'pry'
 class ParserRepository
   attr_reader :enrollment
 
+  # def clean_kindergarten_participation_numbers(arg)
+  #   arg.each do |k, v|
+  #     if v.is_a?(Numeric) == false
+  #       kindergarten_participation[k] = "N/A"
+  #     end
+  #   end
+  # end
+
   def initialize(file_set)
     @enrollment = file_set.fetch(:enrollment)
   end
@@ -20,7 +28,6 @@ class ParserRepository
     parsed_category_data
   end
 
-
   def high_school_path(category)
     category[:high_school_graduation]
   end
@@ -28,13 +35,5 @@ class ParserRepository
   def kindergarten_path(category)
     category[:kindergarten]
   end
-
-
-
-
-  # def parsed_path(file_set)
-  #   file_set.fetch(:enrollment).fetch(:kindergarten)
-  # end
-
 
 end

@@ -19,7 +19,7 @@ class HighSchoolEnrollmentParser
 
   def district_data_value(key, value, final_data)
     districts_data_collection = {}
-    districts_data_collection[:name] = value[0].fetch(:location)
+    districts_data_collection[:name] = value[0].fetch(:location).upcase
     districts_data_collection[:high_school_graduation] = high_school_graduation_prep(value)
     final_data[key] = districts_data_collection
   end

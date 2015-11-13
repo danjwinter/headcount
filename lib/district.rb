@@ -1,4 +1,5 @@
 require_relative './enrollment'
+require_relative './statewide_test'
 
 class District
   attr_reader :name, :enrollment

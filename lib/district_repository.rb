@@ -20,6 +20,7 @@ class DistrictRepository
   def create_districts(category_data, file_set)
     category_data.each do |district_name, attributes|
         d_records[district_name.upcase] ||=  District.new(attributes, enrollment_repository.find_by_name(district_name))
+        binding.pry
    end
  end
 

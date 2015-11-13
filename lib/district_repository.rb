@@ -42,4 +42,23 @@ class DistrictRepository
     end
   end
 
+  def load_districts(category_data)
+    category_data.each_pair do |district, attribute|
+      binding.pry
+      if d_records[district].nil?
+        d_records[district] = District.new(attribute, enrollment_repository.find_by_name(district.upcase))
+      end
+    end
+  end
+
+  def load_district_data(file_set)
+    parsed_district_data(file_set).each do |category_data|
+      load_districts(category_data)
+    end
+  end
+
+  def load_attributes(attribute)
+    d_records[district] = District.new(attribute)
+  end
+
 end

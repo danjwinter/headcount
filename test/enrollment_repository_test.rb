@@ -20,6 +20,13 @@ class EnrollmentRepositoryTest < Minitest::Test
     }
   end
 
+  def file_set_2
+    {:enrollment => {
+       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    }
+  end
+
   def test_enrollments_starts_as_empty_hash
     assert_equal 0, @er.e_records.length
     assert_equal({}, @er.e_records)
@@ -53,5 +60,13 @@ class EnrollmentRepositoryTest < Minitest::Test
 
     assert_equal nil, enrollment_object
   end
+
+  def test_data_can_be_loaded_directly_into_enrollments
+    @er.load_data(file_set_2)
+    binding.pry
+
+  end
+
+
 
 end

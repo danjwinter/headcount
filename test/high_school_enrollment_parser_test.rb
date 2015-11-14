@@ -33,7 +33,7 @@ class HighSchoolEnrollmentParserTest < Minitest::Test
 
   def test_district_data_prints_value
     stats1 = ({2010=>0.724, 2011=>0.739, 2012=>0.75354})
-    assert_equal({:name=>"Colorado", :high_school_graduation => stats1}, @hsep.district_data.first[1])
+    assert_equal({:name=>"COLORADO", :high_school_graduation => stats1}, @hsep.district_data.first[1])
     assert_equal academy_20_parsed_district_data, @hsep.district_data.fetch("ACADEMY 20")
   end
 

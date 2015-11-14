@@ -20,7 +20,6 @@ class DistrictRepository
   def create_districts(category_data, file_set)
     category_data.each do |district_name, attributes|
         d_records[district_name.upcase] ||=  District.new(attributes, enrollment_repository.find_by_name(district_name))
-        binding.pry
    end
  end
 
@@ -45,7 +44,6 @@ class DistrictRepository
 
   def load_districts(category_data)
     category_data.each_pair do |district, attribute|
-      binding.pry
       if d_records[district].nil?
         d_records[district] = District.new(attribute, enrollment_repository.find_by_name(district.upcase))
       end

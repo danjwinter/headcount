@@ -63,7 +63,6 @@ class EnrollmentRepositoryTest < Minitest::Test
 
   def test_data_can_be_loaded_directly_into_enrollments
     @er.load_data(file_set_2)
-    binding.pry
 
   end
 

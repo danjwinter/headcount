@@ -113,11 +113,70 @@ class StatewideTestTest < Minitest::Test
     end
   end
 
-  def test_it_can_find_data_based_on_a_different_race
+  def test_it_finds_data_based_on_a_different_race
     @st.load_new_data(pacific_islander_data)
     assert_equal hash_access(pacific_islander_data.fetch(:pacific_islander)), @st.proficient_by_race_or_ethnicity(:pacific_islander)
   end
 
+  def test_it_finds_data_based_on_specific_year_subject_and_race
+    @st.load_new_data(asian_data)
+    asian_math_2012 = @st.proficient_for_subject_by_race_in_year(:math, :asian, 2012)
+    assert_equal 0.818, asian_math_2012
+  end
+
+  def test_it_raises_an_error_with_unavailable_subject_data_for_proficient_subject_by_race_in_year
+    @st.load_new_data(asian_data)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_race_in_year(:science, :asian, 2012)
+    end
+  end
+
+  def test_it_raises_an_error_with_unavailable_race_data_for_proficient_subject_by_race_in_year
+    @st.load_new_data(asian_data)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_race_in_year(:math, :canuck, 2012)
+    end
+  end
+
+  def test_it_raises_an_error_with_unavailable_subject_data_for_proficient_subject_by_race_in_year
+    @st.load_new_data(asian_data)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_race_in_year(:math, :asian, 1776)
+    end
+  end
+
+  def test_it_finds_data_based_on_specific_year_subject_and_grade
+    @st.load_new_data(statewide_data_3)
+    third_grade_math_2012 = @st.proficient_for_subject_by_grade_in_year(:math, 3, 2012)
+    assert_equal 0.830, third_grade_math_2012
+  end
+
+  def test_it_finds_data_based_on_specific_year_subject_and_eighth_grade
+    @st.load_new_data(statewide_data_8)
+    third_grade_math_2012 = @st.proficient_for_subject_by_grade_in_year(:math, 8, 2013)
+    assert_equal 0.855, third_grade_math_2012
+  end
+
+  def test_it_raises_an_error_with_unavailable_subject_data_for_proficient_subject_by_grade_in_year
+    @st.load_new_data(statewide_data_3)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_grade_in_year(:science, 3, 2013)
+    end
+  end
+
+  def test_it_raises_an_error_with_unavailable_grade_data_for_proficient_subject_by_grade_in_year
+    @st.load_new_data(statewide_data_3)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_grade_in_year(:math, 5, 2013)
+    end
+  end
+
+  def test_it_raises_an_error_with_unavailable_year_data_for_proficient_subject_by_grade_in_year
+    @st.load_new_data(statewide_data_3)
+    assert_raises UnknownDataError do
+      @st.proficient_for_subject_by_grade_in_year(:math, 5, 1960)
+    end
+  end
 
 
 end

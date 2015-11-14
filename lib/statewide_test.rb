@@ -41,6 +41,26 @@ class StatewideTest
     end
   end
 
+  def proficient_for_subject_by_race_in_year(subject, race, year)
+    if available_races.include?(race) && available_subjects.include?(subject) && @race_stats[race].keys.include?(year)
+    truncate(@race_stats[race][year][subject])
+    else
+      raise UnknownDataError
+    end
+  end
+
+  def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    if available_grades.include?(grade) && available_subjects.include?(subject) && @grade_proficiency[grade].keys.include?(year)
+    truncate(@grade_proficiency[grade][year][subject])
+    else
+      raise UnknownDataError
+    end
+  end
+
+  def available_subjects
+    [:math, :reading, :writing]
+  end
+
   def available_races
     [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
   end

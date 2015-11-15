@@ -21,52 +21,27 @@ class GradeStatewideParser
   def district_data_value(key, value, final_data)
     districts_data_collection = {}
     year_data = {}
-    # binding.pry
     districts_data_collection[:name] = key.upcase
     districts_data_collection[@grade] = year_prep(value, year_data)
     final_data[key] = districts_data_collection
   end
 
   def year_prep(attributes, year_data)
-    subject_data_2008 = {}
-    subject_data_2009 = {}
-    years = []
-    attributes.each do |attribute|
-      years << attribute[:timeframe].to_i
-    end
-    years.uniq.each do |year|
+    attributes.map do |attribute|
+      attribute[:timeframe].to_i
+    end.uniq.each do |year|
       year_data[year] = {}
     end
+    set_subject_and_score(year_data, attributes)
+  end
 
-      attributes.each do |attribute|
-        subject = attribute[:score].downcase.to_sym
-        score = attribute[:data].to_f
-        # binding.pry
-        year_data[attribute[:timeframe].to_i].merge!({subject => score})
+  def set_subject_and_score(year_data, attributes)
+    attributes.each do |attribute|
+      subject = attribute[:score].downcase.to_sym
+      score = attribute[:data].to_f
+      year_data[attribute[:timeframe].to_i].merge!({subject => score})
     end
     year_data
-  end
-
-  # def hash_creation(attribute)
-  #   {attribute[:score]: attribute[:data]}
-  # end
-
-
-
-  def math_subject_prep(attribute, subject_data)
-      subject_data[attribute.fetch(:score)] = attribute.fetch(:data)
-    # subject_data[attribute.fetch(:score).to_sym.downcase] = attribute.fetch(:data).to_f
-    # subject_data
-  end
-
-  def reading_subject_prep(attribute, subject_data)
-    subject_data[attribute.fetch(:score).to_sym.downcase] = attribute.fetch(:data).to_f
-    subject_data
-  end
-
-  def writing_subject_prep(attribute, subject_data)
-    subject_data[attribute.fetch(:score).to_sym.downcase] = attribute.fetch(:data).to_f
-    subject_data
   end
 
   def grouped_data_by_district_name

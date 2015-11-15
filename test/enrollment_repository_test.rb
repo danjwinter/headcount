@@ -44,7 +44,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_enrollments_are_found_by_name
-    @er.load_enrollment_data(file_set)
+    @er.load_data(file_set)
     enrollment_object1 = @er.find_by_name("Colorado")
     enrollment_object2 = @er.find_by_name("ACADEMY 20")
 
@@ -55,17 +55,11 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_enrollments_are_not_found_if_name_doesnt_exist
-    @er.load_enrollment_data(file_set)
+    @er.load_data(file_set)
     enrollment_object = @er.find_by_name("Montana")
 
     assert_equal nil, enrollment_object
   end
-
-  def test_data_can_be_loaded_directly_into_enrollments
-    @er.load_data(file_set_2)
-
-  end
-
 
 
 end

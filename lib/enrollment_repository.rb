@@ -1,18 +1,13 @@
 require_relative 'kindergarten_enrollment_parser'
 require_relative 'enrollment'
 require_relative 'parser_repository'
-require_relative 'district_repository'
 require 'pry'
 
 class EnrollmentRepository
-  attr_accessor :e_records, :district_repository
+  attr_accessor :e_records
 
   def initialize
     @e_records = {}
-  end
-
-  def load_attributes(attribute)
-    e_records[enrollment] = Enrollment.new(attribute)
   end
 
   def load_enrollment_data(file_set)
@@ -35,13 +30,13 @@ class EnrollmentRepository
   end
 
   def find_by_name(name)
+    name.upcase!
     @e_records.key?(name) ? @e_records.fetch(name) : nil
   end
 
   def load_data(file_set)
     parsed_enrollment_data(file_set).each do |category_data|
       create_enrollments(category_data, file_set)
-      district_repo_setup(category_data)
     end
   end
 
@@ -51,11 +46,4 @@ class EnrollmentRepository
         e_records[enrollment_name.upcase].load_new_data(attributes)
    end
  end
-
-  def district_repo_setup(category_data)
-    @district_repository ||= DistrictRepository.new
-    @district_repository.enrollment_repository = self
-    @district_repository.load_districts(category_data)
-  end
-
 end

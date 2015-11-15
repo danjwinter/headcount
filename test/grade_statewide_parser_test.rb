@@ -36,6 +36,8 @@ class GradeStatewideParserTest < Minitest::Test
     2009=>{:math => 0.499, :reading => 0.726, :writing => 0.528},
     2010=>{:math => 0.51, :reading => 0.679, :writing => 0.549}})
     assert_equal({:name=>"COLORADO", :eighth_grade => stats1}, @gsp.district_data.first[1])
+
+    binding.pry
     # assert_equal academy_20_parsed_district_data, @gsp.district_data.fetch("ACADEMY 20")
   end
 

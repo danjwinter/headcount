@@ -6,6 +6,7 @@ class GradeStatewideParser
   attr_accessor :csv
 
   def initialize(path_grade)
+    @data_set = {}
     @csv = CSV.read(path_grade[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
     @grade = path_grade[1]
   end

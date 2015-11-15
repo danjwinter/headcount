@@ -14,11 +14,11 @@ class ParserRepositoryTest < Minitest::Test
 
   def file_set_2
     {:statewide_testing => {
-   :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-   :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
-   :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
-   :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
-   :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+   :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+   :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+   :math => "./test/fixtures/sample_statewide_math.csv",
+   :reading => "./test/fixtures/sample_statewide_reading.csv",
+   :writing => "./test/fixtures/sample_statewide_writing.csv"
  }}
   end
 
@@ -30,7 +30,17 @@ class ParserRepositoryTest < Minitest::Test
     @pr2 = ParserRepository.new(file_set_2)
     @pr2.parsed
   end
-  #
+
+  def test_statewide_path_pulls_in_fixture_files
+    pr = ParserRepository.new(file_set_2)
+    assert_equal({:third_grade=>"./test/fixtures/sample_third_grade_CSAP.csv",
+      :eighth_grade=>"./test/fixtures/sample_eighth_grade_CSAP.csv",
+      :math=>"./test/fixtures/sample_statewide_math.csv",
+      :reading=>"./test/fixtures/sample_statewide_reading.csv",
+      :writing=>"./test/fixtures/sample_statewide_writing.csv"}, pr.statewide)
+    end
+
+
   # def test_parser_repo_can_isolate_enrollment_requests
   #   assert_equal({  :kindergarten => "./test/fixtures/sample_kindergarten.csv",
   #                   :high_school_graduation => "./test/fixtures/sample_high_school.csv"}, @pr.enrollment)

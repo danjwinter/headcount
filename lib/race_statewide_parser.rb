@@ -4,47 +4,69 @@ require 'pry'
 class RaceStatewideParser
 
   attr_accessor :csv
-  attr_reader :data_set
+  attr_reader :data_set, :subject
 
   def initialize
     @data_set = {}
-    # @csv = CSV.read(path_race[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
-    # @race = path_race[1]
   end
 
   def load_info(path_subject)
     @csv = CSV.read(path_subject[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
     @subject = path_subject[1]
-
+    # binding.pry
+    build_data_set
   end
 
-  # def proficient_by_race_or_ethnicity(race)
-
-
-
-
-
-  #
-  # end
-
+  def build_data_set
+    # binding.pry
+    if self.data_set.keys.empty?
+      set_up_data_hash
+    end
+    final_data = grouped_data_by_district_name.dup
+    grouped_data_by_district_name.each_pair do |key, value|
+      district_data_value(key, value, final_data)
+    end
+    final_data
+  end
 
   def set_up_data_hash
-    final_data = grouped_data_by_district_name.dup
-    districts = final_data.keys
+    # binding.pry
+
+    districts = grouped_data_by_district_name.keys.each {|district| district.upcase}
     races = []
     dates = []
-    race_dates = final_data.map do |key, value|
-      value.each do |line|
-        races << line[:race_ethnicity]
-        dates << line[:timeframe]
-      end
-    end
+    collect_races_and_dates(races, dates)
+    configure_hash(districts, races, dates)
+    # districts.each do |district|
+    #   @data_set[district.upcase] = race_setup(races.uniq, dates.uniq)
+    # end
+  end
 
+  def configure_hash(districts, races, dates)
     districts.each do |district|
       @data_set[district.upcase] = race_setup(races.uniq, dates.uniq)
     end
   end
 
+  def collect_races_and_dates(races, dates)
+    grouped_data_by_district_name.each do |key, value|
+      value.each do |line|
+        # binding.pry
+        races << symbolize_spaced(line[:race_ethnicity])
+        dates << line[:timeframe].to_i
+      end
+    end
+  end
+
+  def symbolize_spaced(word)
+    if word.upcase == "HAWAIIAN/PACIFIC ISLANDER"
+      :pacific_islander
+    elsif word.include?(" ")
+      word.downcase.split.join("_").to_sym
+    else
+      word.downcase.to_sym
+    end
+  end
 
   def race_setup(races, dates)
     race_opts = {}
@@ -62,25 +84,11 @@ class RaceStatewideParser
     date_opts
   end
 
-  def district_data
-    # binding.pry
-    if self.data_set.keys.empty?
-      set_up_data_hash
-    end
-    final_data = grouped_data_by_district_name.dup
-    grouped_data_by_district_name.each_pair do |key, value|
-
-      district_data_value(key, value, final_data)
-    end
-    final_data
-  end
-
-
-
   def district_data_value(key, value, final_data)
     value.each do |line|
       district = key.upcase
-      race = line[:race_ethnicity]
+      race = symbolize_spaced(line[:race_ethnicity])
+
       year = line[:timeframe].to_i
       @subject
       score = line[:data].to_f
@@ -105,7 +113,7 @@ class RaceStatewideParser
 
   def set_subject_and_score(year_data, attributes)
     attributes.each do |attribute|
-      race = attribute[:race_ethnicity].downcase.to_sym
+      race = symbolize_spaced(attribute[:race_ethnicity])
       score = attribute[:data].to_f
       year_data[attribute[:timeframe].to_i].merge!({race => score})
     end

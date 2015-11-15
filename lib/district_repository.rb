@@ -23,6 +23,11 @@ class DistrictRepository
    end
  end
 
+ def statewide_repo_setup(category_data)
+   @statewide_repository ||= StatewideRepository.new
+   @statewide_repository.load_statewides(category_data)
+ end
+
   def enrollment_repo_setup(category_data)
     @enrollment_repository ||= EnrollmentRepository.new
     @enrollment_repository.load_enrollments(category_data)

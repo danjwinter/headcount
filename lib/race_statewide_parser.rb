@@ -4,6 +4,7 @@ require 'pry'
 class RaceStatewideParser
 
   attr_accessor :csv
+  attr_reader :data_set
 
   def initialize
     @data_set = {}
@@ -13,11 +14,16 @@ class RaceStatewideParser
 
   def load_info(path_subject)
     @csv = CSV.read(path_subject[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
-    @race = path_subject[1]
+    @subject = path_subject[1]
 
   end
 
   # def proficient_by_race_or_ethnicity(race)
+
+
+
+
+
   #
   # end
 
@@ -37,29 +43,33 @@ class RaceStatewideParser
     districts.each do |district|
       @data_set[district.upcase] = race_setup(races.uniq, dates.uniq)
     end
-    binding.pry
   end
 
 
   def race_setup(races, dates)
-    races.map do |race|
-      {race.to_sym => date_setup(dates)}
+    race_opts = {}
+    races.each do |race|
+      race_opts[race] = date_setup(dates)
     end
+    race_opts
   end
 
   def date_setup(dates)
-    new_date = {}
+    date_opts = {}
     dates.each do |date|
-      new_date[date.to_i] = {math: nil, reading: nil, writing: nil}
+      date_opts[date.to_i] = {math: nil, reading: nil, writing: nil}
     end
-    new_date
+    date_opts
   end
 
   def district_data
     # binding.pry
-
+    if self.data_set.keys.empty?
+      set_up_data_hash
+    end
     final_data = grouped_data_by_district_name.dup
     grouped_data_by_district_name.each_pair do |key, value|
+
       district_data_value(key, value, final_data)
     end
     final_data
@@ -68,6 +78,15 @@ class RaceStatewideParser
 
 
   def district_data_value(key, value, final_data)
+    value.each do |line|
+      district = key.upcase
+      race = line[:race_ethnicity]
+      year = line[:timeframe].to_i
+      @subject
+      score = line[:data].to_f
+      self.data_set[district][race][year][@subject] = score
+    end
+
     districts_data_collection = {}
     year_data = {}
     districts_data_collection[:name] = key.upcase

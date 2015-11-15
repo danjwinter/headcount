@@ -28,10 +28,12 @@ class RaceStatewideParserTest < Minitest::Test
 
   def test_load_info_retrieves_asian_data
     @rsp.load_info([file_set_math_statewide, :math])
+    @rsp.district_data
     @rsp.load_info([file_set_reading_statewide, :reading])
+    @rsp.district_data
     @rsp.load_info([file_set_writing_statewide, :writing])
-    @rsp.set_up_data_hash
-    # binding.pry
+    @rsp.district_data
+    binding.pry
     # assert_equal asian_opts, @rsp.proficient_by_race_or_ethnicity(:asian)
   end
 

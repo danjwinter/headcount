@@ -81,20 +81,19 @@ class ParserRepository
         rsp.load_info(path)
       end
 
-      parsed_category_data[:statewide].each do |k,v|
-        
-        parsed_category_data[:statewide][k] = [v, rsp.data_set[k]]
-      end
-
-
-
-      # if parsed_category_data[:statewide]
+      # parsed_category_data[:statewide].each do |k,v|
       #
-      #   parsed_category_data[:statewide].merge!(rsp.data_set)
-      #
-      # else
-      #   parsed_category_data[:stateide] = rsp.data_set
+      #   parsed_category_data[:statewide][k] = [v, rsp.data_set[k]]
       # end
+
+
+      if parsed_category_data[:statewide]
+        parsed_category_data[:statewide].map do |k,v|
+          [k, (v.merge!(rsp.data_set[k]))]
+        end.to_h
+      else
+        parsed_category_data[:statewide] = rsp.data_set
+      end
     end
 
   end

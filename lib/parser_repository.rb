@@ -80,13 +80,21 @@ class ParserRepository
       race_statewide_path(statewide).each do |path|
         rsp.load_info(path)
       end
-      binding.pry
-      if parsed_category_data[:statewide]
 
-        parsed_category_data[:statewide]..merge!(rsp.data_set)
-      else
-        parsed_category_data[:stateide] = rsp.data_set
+      parsed_category_data[:statewide].each do |k,v|
+        
+        parsed_category_data[:statewide][k] = [v, rsp.data_set[k]]
       end
+
+
+
+      # if parsed_category_data[:statewide]
+      #
+      #   parsed_category_data[:statewide].merge!(rsp.data_set)
+      #
+      # else
+      #   parsed_category_data[:stateide] = rsp.data_set
+      # end
     end
 
   end

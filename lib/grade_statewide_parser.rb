@@ -4,11 +4,16 @@ require 'pry'
 class GradeStatewideParser
 
   attr_accessor :csv
+  attr_reader :data_set
 
-  def initialize(path_grade)
+  def initialize
     @data_set = {}
+  end
+
+  def load_info(path_grade)
     @csv = CSV.read(path_grade[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
     @grade = path_grade[1]
+    district_data
   end
 
   def district_data
@@ -16,7 +21,7 @@ class GradeStatewideParser
     grouped_data_by_district_name.each_pair do |key, value|
       district_data_value(key, value, final_data)
     end
-    final_data
+    data_set[@grade] = final_data
   end
 
   def district_data_value(key, value, final_data)

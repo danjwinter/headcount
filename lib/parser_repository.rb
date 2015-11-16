@@ -5,7 +5,7 @@ require_relative 'race_statewide_parser'
 require 'pry'
 
 class ParserRepository
-  attr_reader :enrollment, :statewide
+  attr_reader :enrollment_paths, :statewide_paths
 
   def initialize(file_set)
     @enrollment_paths ||= file_set[:enrollment]
@@ -26,7 +26,6 @@ class ParserRepository
   end
 
   def send_statewide_data(statewide, parsed_category_data)
-    binding.pry
     send_to_grade_statewide_parser(statewide, parsed_category_data)
 
     send_to_race_statewide_parser(statewide, parsed_category_data)
@@ -37,24 +36,11 @@ class ParserRepository
       file_paths = []
       if category[:third_grade]
         file_paths << [category[:third_grade], :third_grade]
-      elsif category[:eighth_grade]
+      end
+      if category[:eighth_grade]
         file_paths << [category[:eighth_grade], :eighth_grade]
       end
       file_paths
-    end
-  end
-
-  def send_to_grade_statewide_parser(statewide, parsed_category_data)
-    if grade_statewide_path(statewide)
-      gsp = GradeStatewideParser.new(grade_statewide_path(statewide))
-      grade_statewide_path(statewide).each do |path|
-        gsp.load_info(path)
-      end
-      if parsed_category_data[:statewide]
-        parsed_category_data[:statewide].push(GradeStatewideParser.new(grade_statewide_path(statewide)).district_data)
-      else
-      parsed_category_data[:statewide] = [GradeStatewideParser.new(grade_statewide_path(statewide)).district_data]
-      end
     end
   end
 
@@ -74,6 +60,20 @@ class ParserRepository
     end
   end
 
+  def send_to_grade_statewide_parser(statewide, parsed_category_data)
+    if grade_statewide_path(statewide)
+      gsp = GradeStatewideParser.new
+      grade_statewide_path(statewide).each do |path|
+        gsp.load_info(path)
+      end
+      if parsed_category_data[:statewide]
+        parsed_category_data[:statewide].push(gsp.data_set)
+      else
+      parsed_category_data[:statewide] = [gsp.data_set]
+      end
+    end
+  end
+
   def send_to_race_statewide_parser(statewide, parsed_category_data)
     if race_statewide_path(statewide)
       rsp = RaceStatewideParser.new
@@ -86,6 +86,7 @@ class ParserRepository
         parsed_category_data[:stateide] = [rsp.data_set]
       end
     end
+
   end
 
   # def third_grade_statewide_path(category)

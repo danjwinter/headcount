@@ -22,13 +22,29 @@ class ParserRepositoryTest < Minitest::Test
  }}
   end
 
+  def file_set_3
+    {:enrollment => {
+    :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+    :high_school_graduation => "./test/fixtures/sample_high_school.csv" },
+
+    :statewide_testing => {
+    :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+    :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+    :math => "./test/fixtures/sample_statewide_math.csv",
+    :reading => "./test/fixtures/sample_statewide_reading.csv",
+    :writing => "./test/fixtures/sample_statewide_writing.csv"
+    }
+    }
+  end
+
   # def setup
   #   @pr = ParserRepository.new(file_set)
   # end
 
   def test_wtf
-    @pr2 = ParserRepository.new(file_set_2)
+    @pr2 = ParserRepository.new(file_set_3)
     @pr2.parsed
+    binding.pry
   end
 
   def test_statewide_path_pulls_in_fixture_files
@@ -37,7 +53,7 @@ class ParserRepositoryTest < Minitest::Test
       :eighth_grade=>"./test/fixtures/sample_eighth_grade_CSAP.csv",
       :math=>"./test/fixtures/sample_statewide_math.csv",
       :reading=>"./test/fixtures/sample_statewide_reading.csv",
-      :writing=>"./test/fixtures/sample_statewide_writing.csv"}, pr.statewide)
+      :writing=>"./test/fixtures/sample_statewide_writing.csv"}, pr.statewide_paths)
     end
 
 

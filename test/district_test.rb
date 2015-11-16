@@ -2,12 +2,13 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
 require './lib/district'
+require './lib/district_repository'
 
 class DistrictTest < Minitest::Test
 
   def setup
-    @d1 = District.new({:name => "ACADEMY 20"}, "enrollment")
-    @d2 = District.new({:name => "Colorado"}, "enrollment")
+    @d1 = District.new({:name => "ACADEMY 20", enrollment: "enrollment obj for academy 20", statewide: "statewide obj for academy 20"})
+    @d2 = District.new({:name => "COLORADO", enrollment: "enrollment obj for Colorado", statewide: "statewide obj for Colorado"})
   end
 
   def file_set

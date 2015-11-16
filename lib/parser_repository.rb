@@ -18,7 +18,6 @@ class ParserRepository
 
     send_statewide_data(statewide_paths, parsed_category_data)
     parsed_category_data
-    binding.pry
   end
 
   def send_enrollment_data(enrollment, parsed_category_data)

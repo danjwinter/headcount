@@ -12,12 +12,18 @@ class StatewideTestRepository
     @st_records = {}
   end
 
-  def load_statewide_data(file_set)
-    statewide_district_data = file_set.each do |chunk|
-      chunk.each do |second_chunk|
-        second_chunk[1].each do |third_chunk|
-        end
+  def load_statewide_info(district_and_statewide_opts)
+    district_and_statewide_opts.each do |name, data|
+      if st_records[name].nil?
+        st_records[name] = StatewideTest.new(name)
       end
+      st_records[name].load_new_data(data)
+    end
+  end
+
+  def load_statewide_data(file_set)
+    parsed_statewide_data(file_set).each do |category_data|
+      load_statewide(category_data)
     end
   end
 

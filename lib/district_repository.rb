@@ -41,7 +41,7 @@ class DistrictRepository
  def statewide_repo_setup(category_data)
 
    @statewide_repository ||= StatewideTestRepository.new
-   @statewide_repository.load_statewide_data(category_data)
+   @statewide_repository.load_statewide_info(category_data)
  end
 
   def enrollment_repo_setup(category_data)

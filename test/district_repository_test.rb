@@ -140,7 +140,6 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_file_set_3_loads
     @dr.load_data(file_set_3)
-    binding.pry
   end
 
 end

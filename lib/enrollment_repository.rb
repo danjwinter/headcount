@@ -10,18 +10,31 @@ class EnrollmentRepository
     @e_records = {}
   end
 
-  def load_enrollment_data(file_set)
-    parsed_enrollment_data(file_set).each do |category_data|
-      load_enrollments(category_data)
-    end
-  end
-
-  def load_enrollments(category_data)
-    category_data.each_pair do |enrollment, attribute|
+  def load_enrollment_data(enrollment_opts)
+    enrollment_opts.each do |enrollment, attribute|
+      enrollment.upcase!
       if e_records[enrollment].nil?
         e_records[enrollment] = Enrollment.new(enrollment)
       end
       e_records[enrollment].load_new_data(attribute)
+    end
+    #grab keys from opts and iterate through each to create a new enrollment object if one doesn't exist within the e_records
+    # take values associated with those enrollment keys and send as attributes to load_new_data for each enrollment
+
+    # parsed_enrollment_data(file_set).each do |category_data|
+    #   load_enrollments(category_data)
+    # end
+  end
+
+  def load_enrollments(enrollment_opts)
+    enrollment_opts.each do |enrollments|
+      enrollments.each do |enrollment, attribute|
+        enrollment = enrollment.upcase
+        if e_records[enrollment].nil?
+          e_records[enrollment] = Enrollment.new(enrollment)
+        end
+        e_records[enrollment].load_new_data(attribute)
+      end
     end
   end
 
@@ -30,7 +43,6 @@ class EnrollmentRepository
   end
 
   def find_by_name(name)
-    name.upcase!
     @e_records.key?(name) ? @e_records.fetch(name) : nil
   end
 

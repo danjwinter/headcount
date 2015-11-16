@@ -18,6 +18,7 @@ class ParserRepository
 
     send_statewide_data(statewide_paths, parsed_category_data)
     parsed_category_data
+    binding.pry
   end
 
   def send_enrollment_data(enrollment, parsed_category_data)
@@ -27,7 +28,6 @@ class ParserRepository
 
   def send_statewide_data(statewide, parsed_category_data)
     send_to_grade_statewide_parser(statewide, parsed_category_data)
-
     send_to_race_statewide_parser(statewide, parsed_category_data)
   end
 
@@ -67,9 +67,9 @@ class ParserRepository
         gsp.load_info(path)
       end
       if parsed_category_data[:statewide]
-        parsed_category_data[:statewide].push(gsp.data_set)
+        parsed_category_data[:statewide].merge!(gsp.data_set)
       else
-      parsed_category_data[:statewide] = [gsp.data_set]
+        parsed_category_data[:statewide] = gsp.data_set
       end
     end
   end
@@ -80,10 +80,12 @@ class ParserRepository
       race_statewide_path(statewide).each do |path|
         rsp.load_info(path)
       end
+      binding.pry
       if parsed_category_data[:statewide]
-        parsed_category_data[:statewide].push(rsp.data_set)
+
+        parsed_category_data[:statewide]..merge!(rsp.data_set)
       else
-        parsed_category_data[:stateide] = [rsp.data_set]
+        parsed_category_data[:stateide] = rsp.data_set
       end
     end
 

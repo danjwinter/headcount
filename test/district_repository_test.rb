@@ -23,6 +23,21 @@ class DistrictRepositoryTest < Minitest::Test
     }
   end
 
+  def file_set_3
+    {:enrollment => {
+    :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+    :high_school_graduation => "./test/fixtures/sample_high_school.csv" },
+
+    :statewide_testing => {
+    :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+    :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+    :math => "./test/fixtures/sample_statewide_math.csv",
+    :reading => "./test/fixtures/sample_statewide_reading.csv",
+    :writing => "./test/fixtures/sample_statewide_writing.csv"
+    }
+    }
+  end
+
   def find_class_of_objects_in_d_records
     @dr.d_records.map {|dis| dis.class}
   end
@@ -98,7 +113,6 @@ class DistrictRepositoryTest < Minitest::Test
     district_objects = @dr.find_all_matching("ada")
     first = district_objects[0]
     second = district_objects[1]
-
     assert_equal 2, district_objects.count
     assert_equal [District, District], [district_objects[0].class, district_objects[1].class]
     assert_equal "ADAMS COUNTY 14", first.name
@@ -112,6 +126,7 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_enrollment_repository_defaults_to_falsey
+    skip
     refute @dr.enrollment_repository
   end
 
@@ -121,6 +136,11 @@ class DistrictRepositoryTest < Minitest::Test
 
     assert_equal Enrollment, @dr.enrollment_repository.e_records.values.first.class
     assert @dr.enrollment_repository.e_records.count > 2
+  end
+
+  def test_file_set_3_loads
+    @dr.load_data(file_set_3)
+    binding.pry
   end
 
 end

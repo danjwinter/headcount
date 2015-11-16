@@ -8,55 +8,72 @@ class GradeStatewideParserTest < Minitest::Test
       "./test/fixtures/sample_eighth_grade_CSAP.csv"
   end
 
-  # def raw_math_prep_data
-  #   [{2011 => {:location=>"ADAMS COUNTY 14", :timeframe=>"2007", :dataformat=>"Percent", :data=>"0.30643"},
-  #  {:location=>"ADAMS COUNTY 14", :timeframe=>"2006", :dataformat=>"Percent", :data=>"0.29331"}
-  # }]
-  # end
-
-  # def academy_20_parsed_district_data
-  #   {:name=>"ACADEMY 20", :math=>{2007=>0.39159, 2006=>0.35364, 2005=>0.26709}}
-  # end
-
   def setup
     @gsp = GradeStatewideParser.new
   end
 
-  def test_wtf
+  def load_path_1
     path1 = ["./test/fixtures/sample_third_grade_CSAP.csv", :third_grade]
-    path2 = ["./test/fixtures/sample_eighth_grade_CSAP.csv", :eighth_grade]
     @gsp.load_info(path1)
-    @gsp.load_info(path2)
-
   end
 
-  def test_parser_creates_array_of_one_hash_upon_initialization
+  def load_path_2
+    path2 = ["./test/fixtures/sample_eighth_grade_CSAP.csv", :eighth_grade]
+    @gsp.load_info(path2)
+  end
+
+  def test_parser_creates_array_of_empty_hash_upon_initialization
     skip
-    assert_equal Hash, @gsp.csv[0].class
+    assert_equal({},  @gsp.data_set)
   end
 
   def test_district_data_creates_keys_based_on_locations
     skip
+    load_path_1
     locations = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
-    assert_equal locations, @gsp.district_data.keys
+    assert_equal locations, @gsp.data_set[:third_grade].keys
   end
 
-  def test_district_data_prints_value
+  def test_data_set_has_third_and_eight_grade_as_keys
     skip
-    stats1 = ({2008=> {:math => 0.469, :reading => 0.703, :writing => 0.529},
-    2009=>{:math => 0.499, :reading => 0.726, :writing => 0.528},
-    2010=>{:math => 0.51, :reading => 0.679, :writing => 0.549}})
-    assert_equal({:name=>"COLORADO", :eighth_grade => stats1}, @gsp.district_data.first[1])
-    # assert_equal academy_20_parsed_district_data, @gsp.district_data.fetch("ACADEMY 20")
+    load_path_1
+    load_path_2
+    assert_equal [:third_grade, :eighth_grade], @gsp.data_set.keys
   end
 
+  def test_grade_is_nil_upon_initialization
+    skip
+    assert_equal nil, @gsp.grade
+  end
 
+  def test_grade_changes_when_new_file_is_loaded
+    skip
+    load_path_1
+    assert_equal :third_grade, @gsp.grade
+    load_path_2
+    assert_equal :eighth_grade, @gsp.grade
+  end
 
-  # def test_kindergarten_participation_prmsp_returns_kind_par_data
-  #   assert_equal({2007=>0.30643, 2006=>0.29331, 2005=>0.3}, @ep.kindergarten_participation_prep(raw_kind_prep_data))
+  def attributes_stub
+    [{:location=>"Colorado",
+  :score=>"Math",
+  :timeframe=>"2008",
+  :dataformat=>"Percent",
+  :data=>"0.697"},
+ {:location=>"Colorado",
+  :score=>"Math",
+  :timeframe=>"2009",
+  :dataformat=>"Percent",
+  :data=>"0.691"}]
+  end
+
+  # def test_set_subject_and_score_from_year_data
+  #   # year_data = {2008=>{}, 2009=>{}}
+  #   assert_equal({2008=>{:math=>0.697}, 2009=>{:math=>0.691}}, @gsp.set_subject_and_score(attributes_stub, year_data))
   # end
 
+  def test_year_prep_outputs_correct_years_from_attributes
+    assert_equal({2008=>{:math=>0.697}, 2009=>{:math=>0.691}}, @gsp.year_prep(attributes_stub, year_data = {}))
+  end
+
 end
-
-
-

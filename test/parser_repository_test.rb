@@ -44,7 +44,6 @@ class ParserRepositoryTest < Minitest::Test
   def test_wtf
     @pr2 = ParserRepository.new(file_set_3)
     @pr2.parsed
-    binding.pry
   end
 
   def test_statewide_path_pulls_in_fixture_files
@@ -55,7 +54,6 @@ class ParserRepositoryTest < Minitest::Test
       :reading=>"./test/fixtures/sample_statewide_reading.csv",
       :writing=>"./test/fixtures/sample_statewide_writing.csv"}, pr.statewide_paths)
     end
-
 
   # def test_parser_repo_can_isolate_enrollment_requests
   #   assert_equal({  :kindergarten => "./test/fixtures/sample_kindergarten.csv",

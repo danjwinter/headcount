@@ -3,7 +3,7 @@ require 'pry'
 
 class GradeStatewideParser
 
-  attr_accessor :csv
+  attr_accessor :csv, :grade
   attr_reader :data_set
 
   def initialize
@@ -19,21 +19,25 @@ class GradeStatewideParser
   def district_data
     final_data = grouped_data_by_district_name.dup
     grouped_data_by_district_name.each_pair do |key, value|
-      district_data_value(key, value, final_data)
+      district_data_value(key.upcase, value, final_data)
     end
-    data_set[@grade] = final_data
   end
 
   def district_data_value(key, value, final_data)
+
     districts_data_collection = {}
     year_data = {}
-    districts_data_collection[:name] = key.upcase
     districts_data_collection[@grade] = year_prep(value, year_data)
-    final_data[key] = districts_data_collection
+    if data_set[key]
+      data_set[key].merge!(districts_data_collection)
+    else
+      data_set[key] = districts_data_collection
+    end
   end
 
   def year_prep(attributes, year_data)
     attributes.map do |attribute|
+
       attribute[:timeframe].to_i
     end.uniq.each do |year|
       year_data[year] = {}

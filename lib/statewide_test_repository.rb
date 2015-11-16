@@ -13,17 +13,23 @@ class StatewideTestRepository
   end
 
   def load_statewide_data(file_set)
-    parsed_statewide_data(file_set).each do |category_data|
-      load_statewide(category_data)
+    statewide_district_data = file_set.each do |chunk|
+      chunk.each do |second_chunk|
+        second_chunk[1].each do |third_chunk|
+        end
+      end
     end
   end
 
   def load_statewide(category_data)
-    category_data.each_pair do |statewide, attribute|
-      if st_records[statewide].nil?
-        st_records[statewide] = StateWideTest.new(statewide)
+    binding.pry
+    category_data.each do |grade|
+      grade.each_pair do |statewide, attribute|
+        if st_records[statewide].nil?
+          st_records[statewide] = StatewideTest.new(statewide)
+        end
+        st_records[statewide].load_new_data(attribute)
       end
-      st_records[statewide].load_new_data(attribute)
     end
   end
 
@@ -37,6 +43,7 @@ class StatewideTestRepository
   end
 
   def load_data(file_set)
+
     parsed_statewide_data(file_set).each do |category_data|
       create_statewide(category_data, file_set)
     end
@@ -44,8 +51,8 @@ class StatewideTestRepository
 
   def create_statewide(category_data, file_set)
     category_data.each do |statewide_name, attributes|
-      e_records[statewide_name.upcase] ||= StateWideTest.new(statewide_name)
-      e_records[statewide_name.upcase].load_new_data(attributes)
+      st_records[statewide_name.upcase] ||= StatewideTest.new(statewide_name)
+      st_records[statewide_name.upcase].load_new_data(attributes)
     end
   end
 end

@@ -1,5 +1,7 @@
 class EconomicProfile
 
+  attr_reader :median_household_income, :children_in_poverty, :free_or_reduced_price_lunch, :title_i
+
   def initialize(data)
     @median_household_income ||= data[:median_household_income]
     @children_in_poverty ||= data[:children_in_poverty]

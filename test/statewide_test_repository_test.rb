@@ -10,15 +10,13 @@ class StatewideTestRepositoryTest < Minitest::Test
   end
 
   def file_set
-    {
-      :statewide_testing => {
-        :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-        :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
-        :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
-        :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
-        :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
-      }
-    }
+    {:statewide_testing => {
+   :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+   :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+   :math => "./test/fixtures/sample_statewide_math.csv",
+   :reading => "./test/fixtures/sample_statewide_reading.csv",
+   :writing => "./test/fixtures/sample_statewide_writing.csv"
+ }}
   end
 
   def test_class_exists
@@ -26,8 +24,8 @@ class StatewideTestRepositoryTest < Minitest::Test
   end
 
   def test_statewide_records_starts_as_empty_hash
-    assert_equal 0, @er.st_records.length
-    assert_equal({}, @er.st_records)
+    assert_equal 0, @str.st_records.length
+    assert_equal({}, @str.st_records)
   end
 
   def test_statewide_repo_can_load_data
@@ -53,8 +51,8 @@ class StatewideTestRepositoryTest < Minitest::Test
   end
 
   def test_statewide_tests_are_not_found_if_name_doesnt_exist
-    @er.load_data(file_set)
-    enrollment_object = @er.find_by_name("Montana")
+    @str.load_data(file_set)
+    enrollment_object = @str.find_by_name("Montana")
 
     assert_equal nil, enrollment_object
   end

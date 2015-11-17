@@ -40,7 +40,8 @@ class StatewideTestRepository
   end
 
   def parsed_statewide_data(file_set)
-    ParserRepository.new(file_set).parsed
+    parser = ParserRepository.new(file_set)
+    parser.parsed[:statewide]
   end
 
   def find_by_name(name)
@@ -49,9 +50,9 @@ class StatewideTestRepository
   end
 
   def load_data(file_set)
-
-    parsed_statewide_data(file_set).each do |category_data|
-      create_statewide(category_data, file_set)
+    parsed_statewide_data(file_set).each do |name, data|
+      st_records[name] ||= StatewideTest.new(name)
+      st_records[name].load_new_data(data)
     end
   end
 

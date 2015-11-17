@@ -31,11 +31,11 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_ec_prof_takes_data_on_instantiation
-    assert EconomicProfile.new(data)
+    assert @ep
   end
 
   def test_median_household_income_can_be_accessed
-    assert_equal({2015 => 50000, 2014 => 60000}, @ep.median_household_income)
+    assert_equal({[2005, 2009] => 50000, [2008, 2014] => 60000}, @ep.median_household_income)
   end
 
   def test_children_in_poverty_can_be_accessed
@@ -51,9 +51,15 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_estimated_median_household_income_in_year_by_year
-    assert_equal 50000, @ep.median_household_income_in_year
+    assert_equal 50000, @ep.median_household_income_in_year(2005)
   end
 
+  def test_estimated_median_household_income_in_year_by_year_for_year_in_multiple_income_ranges
+    assert_equal 55000, @ep.median_household_income_in_year(2008)
+  end
 
+  def test_median_household_income_average_returns_average_of_
+    assert_equal 55000, @ep.median_household_income_average
+  end
 
 end

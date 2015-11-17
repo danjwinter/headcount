@@ -23,31 +23,26 @@ class GradeStatewideParserTest < Minitest::Test
   end
 
   def test_parser_creates_array_of_empty_hash_upon_initialization
-    skip
     assert_equal({},  @gsp.data_set)
   end
 
   def test_district_data_creates_keys_based_on_locations
-    skip
     load_path_1
-    locations = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
-    assert_equal locations, @gsp.data_set[:third_grade].keys
+    locations = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
+    assert_equal locations, @gsp.data_set.keys
   end
 
   def test_data_set_has_third_and_eight_grade_as_keys
-    skip
     load_path_1
     load_path_2
-    assert_equal [:third_grade, :eighth_grade], @gsp.data_set.keys
+    assert_equal [:third_grade, :eighth_grade], @gsp.data_set.first[1].keys
   end
 
   def test_grade_is_nil_upon_initialization
-    skip
     assert_equal nil, @gsp.grade
   end
 
   def test_grade_changes_when_new_file_is_loaded
-    skip
     load_path_1
     assert_equal :third_grade, @gsp.grade
     load_path_2

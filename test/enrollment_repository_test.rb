@@ -33,12 +33,12 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_enrollments_loads_kindergarten_sample_data
-    @er.load_enrollment_data(file_set)
-    e_records_keys = ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
+    @er.load_data(file_set)
+    e_records_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
     assert_equal 4, @er.e_records.count
     assert_equal [Enrollment, Enrollment, Enrollment, Enrollment], @er.e_records.values.map {|ob| ob.class}
-    assert_equal Enrollment, @er.e_records.fetch("Colorado").class
+    assert_equal Enrollment, @er.e_records.fetch("COLORADO").class
     assert_equal Enrollment, @er.e_records.fetch("ACADEMY 20").class
     assert_equal e_records_keys, @er.e_records.keys
   end

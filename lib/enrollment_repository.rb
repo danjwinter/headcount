@@ -12,6 +12,7 @@ class EnrollmentRepository
 
   def load_enrollment_data(enrollment_opts)
     enrollment_opts.each do |enrollment, attribute|
+      binding.pry
       enrollment.upcase!
       if e_records[enrollment].nil?
         e_records[enrollment] = Enrollment.new(enrollment)
@@ -39,11 +40,11 @@ class EnrollmentRepository
   end
 
   def parsed_enrollment_data(file_set)
-    ParserRepository.new(file_set).parsed
+    ParserRepository.new(file_set).parsed[:enrollment]
   end
 
   def find_by_name(name)
-    @e_records.key?(name) ? @e_records.fetch(name) : nil
+    @e_records.key?(name.upcase) ? @e_records.fetch(name.upcase) : nil
   end
 
   def load_data(file_set)

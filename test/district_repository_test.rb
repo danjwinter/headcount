@@ -126,7 +126,6 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_enrollment_repository_defaults_to_falsey
-    skip
     refute @dr.enrollment_repository
   end
 

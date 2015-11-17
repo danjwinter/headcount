@@ -27,4 +27,16 @@ class EconomicProfile
     incomes.reduce(:+) / incomes.length
   end
 
+  def children_in_poverty_in_year(year)
+    truncate(@children_in_poverty[year])
+  end
+
+  def free_or_reduced_price_lunch_in_year(year)
+    truncate(free_or_reduced_price_lunch[year][:percentage])
+  end
+
+  def truncate(value)
+    ((value * 1000).floor/1000.0)
+  end
+
 end

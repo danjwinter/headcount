@@ -62,4 +62,12 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 55000, @ep.median_household_income_average
   end
 
+  def test_it_extracts_children_in_poverty_in_year
+    assert_equal 0.184, @ep.children_in_poverty_in_year(2012)
+  end
+
+  def test_free_or_reduced_price_lunch_percentage_in_year_by_year
+    assert_equal 0.023, @ep.free_or_reduced_price_lunch_in_year(2014)
+  end
+
 end

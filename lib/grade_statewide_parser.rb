@@ -48,7 +48,13 @@ class GradeStatewideParser
   def set_subject_and_score(year_data, attributes)
     attributes.each do |attribute|
       subject = attribute[:score].downcase.to_sym
-      score = attribute[:data].to_f
+      
+      num_test = attribute[:data] =~ /\d/
+      if  num_test.is_a? Numeric
+        score = attribute[:data].to_f
+      else
+        score = "N/A"
+      end
       year_data[attribute[:timeframe].to_i].merge!({subject => score})
     end
     year_data

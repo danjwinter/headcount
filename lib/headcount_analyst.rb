@@ -134,6 +134,13 @@ class HeadcountAnalyst
     multiple_districts = grade_subject_opts[:top]
     requested_grade = grade_subject_opts[:grade]
     requested_subject = grade_subject_opts[:subject]
+    weighting = grade_subject_opts[:weighting]
+
+    if weighting
+      return grab_weighted_subjects(requested_grade, weighting)
+    elsif multiple_districts.nil? && requested_subject.nil?
+      return grab_all_subjects(requested_grade)
+    else
 
     final_growth_stats = dr.statewide_repository.st_records.map do |name, data|
       [name, get_growth(data, requested_grade, requested_subject)]
@@ -145,10 +152,45 @@ class HeadcountAnalyst
 
     if multiple_districts
       stuff[0..(multiple_districts-1)]
-    else
+    elsif requested_grade && requested_subject
       stuff[0]
     end
+  end
 
+  end
+
+  def grab_weighted_subjects(requested_grade, weighting)
+    math_weight = weighting[:math]
+    reading_weight = weighting[:reading]
+    writing_weight = weighting[:writing]
+
+    math_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :math})
+    writing_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :writing})
+    reading_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :reading})
+
+    math_top[1] *= math_weight
+    writing_top[1] *= writing_weight
+    reading_top[1] *= reading_weight
+
+    top_districts = ([math_top] + [writing_top] + [reading_top])
+
+    sorted_top_districts = top_districts.sort_by do |pair|
+      pair[1]
+    end.reverse
+    sorted_top_districts[0]
+  end
+
+  def grab_all_subjects(requested_grade)
+    math_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :math})
+    writing_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :writing})
+    reading_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :reading})
+
+    top_districts = ([math_top] + [writing_top] + [reading_top])
+
+    sorted_top_districts = top_districts.sort_by do |pair|
+      pair[1]
+    end.reverse
+    sorted_top_districts[0]
   end
 
   def get_growth(data, requested_grade, requested_subject, x = 0, numbers = [])
@@ -166,8 +208,9 @@ class HeadcountAnalyst
     end
     total = hopeful.compact.reduce(:+)
     truncate(total / (num_of_years - 1))
-
   end
+
+
 
   # get growth for all subjects
   # pass in each subject and create an darray with three arrays that coordinate with each suhbject, for each District

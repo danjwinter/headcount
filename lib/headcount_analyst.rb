@@ -224,27 +224,13 @@ class HeadcountAnalyst
   def get_growth(data, requested_grade, requested_subject, x = 0, numbers = [])
 
     values = data.grade_proficiency[requested_grade].values
+    years = data.grade_proficiency[requested_grade].keys
     num_of_years = data.grade_proficiency[requested_grade].values.length
+
     math_values = values.map do |year_data|
       year_data[requested_subject]
     end
-    binding.pry
 
-    hopeful = math_values.map.each_with_index do |num, index|
-      unless math_values[index + 1] == nil
-        math_values[index + 1] - num
-      end
-    end
-    total = hopeful.compact.reduce(:+)
-    truncate(total / (num_of_years - 1))
+    truncate((math_values[-1] - math_values[0]) / (years[-1] - years[0]))
   end
-
-
-
-  # get growth for all subjects
-  # pass in each subject and create an darray with three arrays that coordinate with each suhbject, for each District
-  # iteration will match up for each district and subject
-  # join then grab top
-  # for weighted data - create a hash with subject as key and districts as values
-
 end

@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest'
 require 'pry'
 require './lib/district_repository'
 require './lib/headcount_analyst'
@@ -166,6 +167,24 @@ class HeadcountAnalystTest < Minitest::Test
     ready_iteration_two_analysis
     assert_equal(["COLORADO", 0.002],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
   end
+
+  def test_if_no_grade_provided_in_year_over_year_growth_throw_insufficient_data_error
+    ready_iteration_two_analysis
+    exception = assert_raises(InsufficientInformationError) do
+      @ha2.top_statewide_test_year_over_year_growth(subject: :math)
+    end
+    assert_equal('A grade must be provided to answer this question.', exception.message)
+  end
+  #
+  # def test_if_bad_grade_provided_in_year_over_year_growth_throw_unknown_data_error
+  #   ready_iteration_two_analysis
+  #   exception = assert_raises(UnknownDataError) do
+  #     @ha2.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
+  #   end
+  #
+  #   assert_equal("9 is not a known grade.", exception.message)
+  # end
+
 
 
 

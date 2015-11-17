@@ -129,4 +129,50 @@ class HeadcountAnalyst
       district_name.enrollment.graduation_rate_by_year.values
     end
   end
+
+  def top_statewide_test_year_over_year_growth(grade_subject_opts)
+    multiple_districts = grade_subject_opts[:top]
+    requested_grade = grade_subject_opts[:grade]
+    requested_subject = grade_subject_opts[:subject]
+
+    final_growth_stats = dr.statewide_repository.st_records.map do |name, data|
+      [name, get_growth(data, requested_grade, requested_subject)]
+    end
+
+    stuff = final_growth_stats.sort_by do |pair|
+      pair[1]
+    end.reverse
+
+    if multiple_districts
+      stuff[0..(multiple_districts-1)]
+    else
+      stuff[0]
+    end
+
+  end
+
+  def get_growth(data, requested_grade, requested_subject, x = 0, numbers = [])
+
+    values = data.grade_proficiency[requested_grade].values
+    num_of_years = data.grade_proficiency[requested_grade].values.length
+    math_values = values.map do |year_data|
+      year_data[requested_subject]
+    end
+
+    hopeful = math_values.map.each_with_index do |num, index|
+      unless math_values[index + 1] == nil
+        math_values[index + 1] - num
+      end
+    end
+    total = hopeful.compact.reduce(:+)
+    truncate(total / (num_of_years - 1))
+
+  end
+
+  # get growth for all subjects
+  # pass in each subject and create an darray with three arrays that coordinate with each suhbject, for each District
+  # iteration will match up for each district and subject
+  # join then grab top
+  # for weighted data - create a hash with subject as key and districts as values
+
 end

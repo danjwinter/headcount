@@ -5,7 +5,7 @@ class UnknownRaceError < StandardError
 end
 
 class StatewideTest
-  attr_reader :name, :grade_proficiency
+  attr_reader :name, :grade_proficiency, :race_stats
 
   def initialize(data)
     @name = data.upcase

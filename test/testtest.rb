@@ -38,6 +38,26 @@ class TestTest < Minitest::Test
     }
   end
 
+  def test_all_data_coming_in
+    dr = DistrictRepository.new
+    dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv",
+      },
+      :statewide_testing => {
+        :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+        :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+        :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+        :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+        :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+      }
+      })
+      binding.pry
+  end
+
+
+
   def test_why_arent_grades_showing_up
     @dr.load_data(file_set_3)
 
@@ -49,4 +69,20 @@ class TestTest < Minitest::Test
     @stwr.load_data(file_set_3)
   end
 
+# HA ANALYSIS BETWEEN YEARS FOR THIRD GRADE MATH
+#   -.006
+#   .015
+# C = .0045
+#
+# -.033
+# .025
+# A20 = -.004
+#
+# -.02
+# -.071
+# A14 = -.0365
+#
+# -.017
+# -.003
+# AA28J = -.01
   end

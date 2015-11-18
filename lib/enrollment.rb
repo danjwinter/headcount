@@ -2,7 +2,9 @@ class Enrollment
   attr_reader :name, :kindergarten_participation, :graduation_rate_by_year
 
   def initialize(data)
-    @name = data.upcase
+      @name = data[:name].upcase
+      @kindergarten_participation ||= data[:kindergarten_participation]
+      @graduation_rate_by_year ||= data[:high_school_graduation]
   end
 
   def truncate(value)
@@ -10,7 +12,9 @@ class Enrollment
   end
 
   def kindergarten_participation_in_year(year)
-    kindergarten_participation_by_year[year]
+    # binding.pry
+    truncate(kindergarten_participation[year])
+    # kindergarten_participation_by_year[year]
   end
 
   def graduation_rate_in_year(year)
@@ -18,9 +22,9 @@ class Enrollment
   end
 
   def kindergarten_participation_by_year
-    kindergarten_participation.each do |k, v|
-      kindergarten_participation[k] = truncate(v)
-    end
+    kindergarten_participation.map do |k, v|
+       [k, truncate(v)]
+    end.to_h
   end
 
   def load_new_data(attribute)

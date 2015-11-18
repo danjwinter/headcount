@@ -12,10 +12,9 @@ class EnrollmentRepository
 
   def load_enrollment_data(enrollment_opts)
     enrollment_opts.each do |enrollment, attribute|
-      binding.pry
       enrollment.upcase!
       if e_records[enrollment].nil?
-        e_records[enrollment] = Enrollment.new(enrollment)
+        e_records[enrollment] = Enrollment.new(attribute)
       end
       e_records[enrollment].load_new_data(attribute)
     end
@@ -28,11 +27,13 @@ class EnrollmentRepository
   end
 
   def load_enrollments(enrollment_opts)
+
     enrollment_opts.each do |enrollments|
       enrollments.each do |enrollment, attribute|
         enrollment = enrollment.upcase
         if e_records[enrollment].nil?
-          e_records[enrollment] = Enrollment.new(enrollment)
+
+          e_records[enrollment] = Enrollment.new(attribute)
         end
         e_records[enrollment].load_new_data(attribute)
       end
@@ -55,7 +56,7 @@ class EnrollmentRepository
 
   def create_enrollments(category_data, file_set)
     category_data.each do |enrollment_name, attributes|
-        e_records[enrollment_name.upcase] ||= Enrollment.new(enrollment_name)
+        e_records[enrollment_name.upcase] ||= Enrollment.new(attributes)
         e_records[enrollment_name.upcase].load_new_data(attributes)
    end
  end

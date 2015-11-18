@@ -15,7 +15,7 @@ class EconomicProfile
     @title_i ||= data[:title_i]
   end
 
-  def median_household_income_in_year(year)
+  def estimated_median_household_income_in_year(year)
     income = median_household_income_with_range.select do |k,v|
       k.include?(year)
     end.values

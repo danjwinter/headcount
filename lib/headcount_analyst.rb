@@ -47,9 +47,14 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_against_high_school_graduation(district_name)
+    # binding.pry
     kprv = kindergarten_participation_rate_variation(district_name, :against => 'COLORADO')
     hsgr = hs_graduation_rate_variation(district_name, :against => 'COLORADO')
-    truncate(kprv/hsgr)
+    # binding.pry
+
+    unless hsgr == 0
+      truncate(kprv/hsgr)
+    end
   end
 
   def non_co_district_names
@@ -77,6 +82,10 @@ class HeadcountAnalyst
   # end
 
   def kindergarten_participation_correlates_with_high_school_graduation(for_district_name)
+    # if for_district_name[:for] == "STATEWIDE"
+    #   multiple_district_kind_par_with_high_grad(for_district_name)
+    # else
+    #   single_district_kind_par_with_high_grad(for_district_name[:for])
     case for_district_name.keys
     when [:for]
       single_district_kind_par_with_high_grad(for_district_name)
@@ -87,7 +96,7 @@ class HeadcountAnalyst
 
   def single_district_kind_par_with_high_grad(for_district_name)
     district_name = for_district_name[:for]
-    if district_name.upcase == "COLORADO"
+    if district_name.upcase == "STATEWIDE"
       kindergarten_participation_correlates_with_high_school_graduation(across: non_co_district_names)
     else
       kind_to_hs_variation = kindergarten_participation_against_high_school_graduation(district_name)
@@ -133,17 +142,22 @@ class HeadcountAnalyst
   end
 
   def sum_participation_rate(district, category)
-    participation_by_year(district, category).inject(0.0) do |sum, val|
-      sum + val
-    end
+    # binding.pry
+    participation_by_year(district, category).compact.reduce(:+)
+    # participation_by_year(district, category).inject(0.0) do |sum, val|
+    #   sum + val
+    # end
   end
 
   def participation_by_year(district_name, category)
-    case category
-    when "kind"
-      district_name.enrollment.kindergarten_participation_by_year.values
-    when "hs"
-      district_name.enrollment.graduation_rate_by_year.values
+    if district_name.nil?
+    else
+      case category
+      when "kind"
+        district_name.enrollment.kindergarten_participation_by_year.values
+      when "hs"
+        district_name.enrollment.graduation_rate_by_year.values
+      end
     end
   end
 

@@ -2,14 +2,16 @@ require_relative './kindergarten_enrollment_parser'
 require_relative 'high_school_enrollment_parser'
 require_relative 'grade_statewide_parser'
 require_relative 'race_statewide_parser'
+require_relative 'economic_profile_parser'
 require 'pry'
 
 class ParserRepository
-  attr_reader :enrollment_paths, :statewide_paths
+  attr_reader :enrollment_paths, :statewide_paths, :economic_paths
 
   def initialize(file_set)
     @enrollment_paths ||= file_set[:enrollment]
     @statewide_paths ||= file_set[:statewide_testing]
+    @economic_paths ||= file_set[:economic_profile]
   end
 
   def parsed

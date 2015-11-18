@@ -90,6 +90,11 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.543, @ep.title_i_in_year(2015)
   end
 
+  def test_title_i_in_year_by_year_rasises_error_for_unknown_year
+    assert_raises UnknownDataError do
+       @ep.title_i_in_year(14)
+    end
+  end
 
 
 end

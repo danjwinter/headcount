@@ -36,7 +36,6 @@ class FreeReducedLunchParserTest < Minitest::Test
   end
 
   def test_data_set_begins_as_an_empty_hash
-    load_lunch_path
     assert_equal({}, @frlp.data_set)
   end
 

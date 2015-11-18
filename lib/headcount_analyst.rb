@@ -1,6 +1,23 @@
 require_relative './district_repository'
 require 'pry'
 
+class InsufficientInformationError < StandardError
+  def message
+    "A grade must be provided to answer this question."
+  end
+end
+
+class UnknownDataError < StandardError
+
+  attr_reader :requested_grade
+  def initialize(requested_grade)
+    @requested_grade = requested_grade
+  end
+  def message
+    "#{requested_grade} is not a known grade."
+  end
+end
+
 class HeadcountAnalyst
 
   attr_reader :dr
@@ -130,12 +147,23 @@ class HeadcountAnalyst
     end
   end
 
+  def raise_error_guard(requested_grade)
+    if requested_grade.nil?
+      raise InsufficientInformationError
+    end
+    if ![3, 8].include?(requested_grade)
+      raise UnknownDataError(requested_grade)
+    end
+  end
+
   def top_statewide_test_year_over_year_growth(grade_subject_opts)
     all = grade_subject_opts[:all]
     multiple_districts = grade_subject_opts[:top]
     requested_grade = grade_subject_opts[:grade]
     requested_subject = grade_subject_opts[:subject]
     weighting = grade_subject_opts[:weighting]
+
+    raise_error_guard(requested_grade)
 
     if weighting
       return grab_weighted_subjects(requested_grade, weighting)
@@ -202,26 +230,13 @@ class HeadcountAnalyst
   def get_growth(data, requested_grade, requested_subject, x = 0, numbers = [])
 
     values = data.grade_proficiency[requested_grade].values
+    years = data.grade_proficiency[requested_grade].keys
     num_of_years = data.grade_proficiency[requested_grade].values.length
+
     math_values = values.map do |year_data|
       year_data[requested_subject]
     end
 
-    hopeful = math_values.map.each_with_index do |num, index|
-      unless math_values[index + 1] == nil
-        math_values[index + 1] - num
-      end
-    end
-    total = hopeful.compact.reduce(:+)
-    truncate(total / (num_of_years - 1))
+    truncate((math_values[-1] - math_values[0]) / (years[-1] - years[0]))
   end
-
-
-
-  # get growth for all subjects
-  # pass in each subject and create an darray with three arrays that coordinate with each suhbject, for each District
-  # iteration will match up for each district and subject
-  # join then grab top
-  # for weighted data - create a hash with subject as key and districts as values
-
 end

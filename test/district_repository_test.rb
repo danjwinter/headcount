@@ -125,8 +125,8 @@ class DistrictRepositoryTest < Minitest::Test
     assert_equal 0.391, district.enrollment.kindergarten_participation_in_year(2007)
   end
 
-  def test_enrollment_repository_defaults_to_falsey
-    refute @dr.enrollment_repository
+  def test_enrollment_repository_defaults_to_truthy
+    assert @dr.enrollment_repository
   end
 
   def test_enrollment_repository_is_created_when_files_are_loaded

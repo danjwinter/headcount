@@ -44,10 +44,21 @@ class TestTest < Minitest::Test
   # end
 
 
+
+  def test_all_data_coming_in
+    skip
+    dr = DistrictRepository.new
+    dr.load_data({
+      :enrollment => {
+        :kindergarten => "./data/Kindergartners in full-day program.csv",
+        :high_school_graduation => "./data/High school graduation rates.csv",
+      },
+
     def file_set_3
       {:enrollment => {
       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
       :high_school_graduation => "./test/fixtures/sample_high_school.csv" },
+
 
       :statewide_testing => {
       :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
@@ -59,15 +70,30 @@ class TestTest < Minitest::Test
       }
     end
 
-    def ready_iteration_two_analysis
-      @dr = DistrictRepository.new
-      @dr.load_data(file_set_3)
-      @ha2 = HeadcountAnalyst.new(@dr)
-    end
 
-  def test_statewide_growth_year_over_year
-    ready_iteration_two_analysis
-    assert_equal ['COLORADO', 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+  def test_wtf
+
+  dr = DistrictRepository.new
+  dr.load_data({
+    :enrollment => {
+      :kindergarten => "./data/Kindergartners in full-day program.csv",
+      :high_school_graduation => "./data/High school graduation rates.csv",
+    },
+    :statewide_testing => {
+      :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+      :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+      :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+    },
+    :economic_profile => {
+    :median_household_income => "./test/fixtures/sample_median_household_income.csv",
+    :children_in_poverty => "./test/fixtures/sample_school_aged_children_in_poverty.csv",
+    :free_or_reduced_price_lunch => "./test/fixtures/sample_students_qualifying_for_lunch.csv",
+    :title_i => "./test/fixtures/sample_title_i_students.csv"
+    }
+    })
+    binding.pry
   end
 
 

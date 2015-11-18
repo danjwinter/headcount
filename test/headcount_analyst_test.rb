@@ -160,13 +160,13 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade
     ready_iteration_two_analysis
-    assert_equal ["COLORADO", 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["COLORADO", 0.0],@ha2.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade_with_weighting
 
     ready_iteration_two_analysis
-    assert_equal(["COLORADO", 0.002],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
+    assert_equal(["COLORADO", 0.0],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
   end
 
   def test_if_no_grade_provided_in_year_over_year_growth_throw_insufficient_data_error
@@ -185,7 +185,6 @@ class HeadcountAnalystTest < Minitest::Test
   #
   #   assert_equal("9 is not a known grade.", exception.message)
   # end
-
 
 
 

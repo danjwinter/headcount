@@ -131,6 +131,7 @@ class HeadcountAnalyst
   end
 
   def top_statewide_test_year_over_year_growth(grade_subject_opts)
+    all = grade_subject_opts[:all]
     multiple_districts = grade_subject_opts[:top]
     requested_grade = grade_subject_opts[:grade]
     requested_subject = grade_subject_opts[:subject]
@@ -152,6 +153,8 @@ class HeadcountAnalyst
 
     if multiple_districts
       stuff[0..(multiple_districts-1)]
+    elsif all
+      stuff
     elsif requested_grade && requested_subject
       stuff[0]
     end
@@ -160,36 +163,39 @@ class HeadcountAnalyst
   end
 
   def grab_weighted_subjects(requested_grade, weighting)
-    math_weight = weighting[:math]
-    reading_weight = weighting[:reading]
-    writing_weight = weighting[:writing]
 
-    math_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :math})
-    writing_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :writing})
-    reading_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :reading})
+    math_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :math}).sort
+    writing_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :writing}).sort
+    reading_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :reading}).sort
 
-    math_top[1] *= math_weight
-    writing_top[1] *= writing_weight
-    reading_top[1] *= reading_weight
 
-    top_districts = ([math_top] + [writing_top] + [reading_top])
+    all_subject_average = math_top.map.each_with_index do |element, index|
+      total_with_weight = ((weighting[:math] * element[1]) + (weighting[:writing] * writing_top[index][1]) + (weighting[:reading] * reading_top[index][1]))
 
-    sorted_top_districts = top_districts.sort_by do |pair|
+      [element[0], truncate(total_with_weight)]
+    end
+
+
+    sorted_top_districts = all_subject_average.sort_by do |pair|
       pair[1]
     end.reverse
+
     sorted_top_districts[0]
   end
 
   def grab_all_subjects(requested_grade)
-    math_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :math})
-    writing_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :writing})
-    reading_top = top_statewide_test_year_over_year_growth({grade: requested_grade, subject: :reading})
+    math_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :math}).sort
+    writing_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :writing}).sort
+    reading_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :reading}).sort
 
-    top_districts = ([math_top] + [writing_top] + [reading_top])
+    all_subject_average = math_top.map.each_with_index do |element, index|
+      [element[0], truncate((element[1] + writing_top[index][1] + reading_top[index][1]) / 3)]
+    end
 
-    sorted_top_districts = top_districts.sort_by do |pair|
+    sorted_top_districts = all_subject_average.sort_by do |pair|
       pair[1]
     end.reverse
+
     sorted_top_districts[0]
   end
 

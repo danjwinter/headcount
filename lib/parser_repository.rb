@@ -2,7 +2,7 @@ require_relative './kindergarten_enrollment_parser'
 require_relative 'high_school_enrollment_parser'
 require_relative 'grade_statewide_parser'
 require_relative 'race_statewide_parser'
-require_relative 'economic_profile_parser'
+# require_relative 'economic_profile_parser'
 require 'pry'
 
 class ParserRepository

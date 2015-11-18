@@ -98,16 +98,6 @@ class TestTest < Minitest::Test
 
 
 
-  # def test_why_arent_grades_showing_up
-  #   @dr.load_data(file_set_3)
-  #
-  # end
-  #
-  # def test_statewide_reposhit
-  #   skip
-  #   @stwr = StatewideTestRepository.new
-  #   @stwr.load_data(file_set_3)
-  # end
 
 # HA ANALYSIS BETWEEN YEARS FOR THIRD GRADE MATH
 #   -.006

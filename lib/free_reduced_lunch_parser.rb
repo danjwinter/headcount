@@ -15,7 +15,6 @@ class FreeReducedLunchParser
     @econ_prof_key = path_econ_prof[1]
     data_set_up
     district_data
-
   end
 
   def data_set_up

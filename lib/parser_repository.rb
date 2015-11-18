@@ -42,7 +42,7 @@ class ParserRepository
     # parsed_category_data[:economic_profile] = {}
     # binding.pry
     e_path = economic_statewide_path(economic)
-    if e_path != {}
+    if e_path != nil
       if e_path[:median_household_income]
         mhip = MedianHouseholdIncomeParser.new
         mhip.load_info([e_path[:median_household_income], :median_household_income])

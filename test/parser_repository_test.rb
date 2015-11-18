@@ -54,7 +54,6 @@ class ParserRepositoryTest < Minitest::Test
 
   def test_wtf
     @pr2 = ParserRepository.new(econ_file_set)
-    binding.pry
     @pr2.parsed
   end
 

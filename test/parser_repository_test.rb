@@ -37,17 +37,30 @@ class ParserRepositoryTest < Minitest::Test
     }
   end
 
+  def econ_file_set
+    {
+    :economic_profile => {
+    :median_household_income => "./test/fixtures/sample_median_household_income.csv",
+    :children_in_poverty => "./test/fixtures/sample_school_aged_children_in_poverty.csv",
+    :free_or_reduced_price_lunch => "./test/fixtures/sample_students_qualifying_for_lunch.csv",
+    :title_i => "./test/fixtures/sample_title_i_students.csv"
+    }
+    }
+  end
+
   # def setup
   #   @pr = ParserRepository.new(file_set)
   # end
 
   def test_wtf
-    @pr2 = ParserRepository.new(file_set_3)
+    @pr2 = ParserRepository.new(econ_file_set)
+    binding.pry
     @pr2.parsed
   end
 
   def test_statewide_path_pulls_in_fixture_files
     pr = ParserRepository.new(file_set_2)
+
     assert_equal({:third_grade=>"./test/fixtures/sample_third_grade_CSAP.csv",
       :eighth_grade=>"./test/fixtures/sample_eighth_grade_CSAP.csv",
       :math=>"./test/fixtures/sample_statewide_math.csv",

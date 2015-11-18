@@ -39,6 +39,7 @@ class TestTest < Minitest::Test
   end
 
   def test_all_data_coming_in
+    skip
     dr = DistrictRepository.new
     dr.load_data({
       :enrollment => {
@@ -56,9 +57,35 @@ class TestTest < Minitest::Test
       binding.pry
   end
 
+  def test_wtf
+
+  dr = DistrictRepository.new
+  dr.load_data({
+    :enrollment => {
+      :kindergarten => "./data/Kindergartners in full-day program.csv",
+      :high_school_graduation => "./data/High school graduation rates.csv",
+    },
+    :statewide_testing => {
+      :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+      :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+      :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+    },
+    :economic_profile => {
+    :median_household_income => "./test/fixtures/sample_median_household_income.csv",
+    :children_in_poverty => "./test/fixtures/sample_school_aged_children_in_poverty.csv",
+    :free_or_reduced_price_lunch => "./test/fixtures/sample_students_qualifying_for_lunch.csv",
+    :title_i => "./test/fixtures/sample_title_i_students.csv"
+    }
+    })
+    binding.pry
+  end
+
 
 
   def test_why_arent_grades_showing_up
+    skip
     @dr.load_data(file_set_3)
 
   end

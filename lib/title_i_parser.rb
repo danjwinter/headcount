@@ -16,7 +16,6 @@ class TitleIParser
 
     data_set_up
     district_data
-    binding.pry
   end
 
   def data_set_up

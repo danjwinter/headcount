@@ -1,3 +1,6 @@
+class UnknownDataError < StandardError
+end
+
 class EconomicProfile
 
   attr_reader :median_household_income, :children_in_poverty, :free_or_reduced_price_lunch, :title_i, :median_household_income_with_range
@@ -32,7 +35,27 @@ class EconomicProfile
   end
 
   def free_or_reduced_price_lunch_in_year(year)
-    truncate(free_or_reduced_price_lunch[year][:percentage])
+    if free_or_reduced_price_lunch.keys.include?(year)
+      truncate(free_or_reduced_price_lunch[year][:percentage])
+    else
+      raise UnknownDataError
+    end
+  end
+
+  def free_or_reduced_price_lunch_total_in_year(year)
+    if free_or_reduced_price_lunch.keys.include?(year)
+      truncate(free_or_reduced_price_lunch[year][:total])
+    else
+      raise UnknownDataError
+    end
+  end
+
+  def title_i_in_year(year)
+    if title_i.keys.include?(year)
+      truncate(title_i[year])
+    else
+      raise UnknownDataError
+    end
   end
 
   def truncate(value)

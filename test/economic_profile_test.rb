@@ -70,4 +70,26 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.023, @ep.free_or_reduced_price_lunch_in_year(2014)
   end
 
+  def test_free_or_reduced_price_lunch_percentage_in_year_by_year_raises_error_with_unknown_year
+    assert_raises UnknownDataError do
+       @ep.free_or_reduced_price_lunch_in_year(14)
+    end
+  end
+
+  def test_free_or_reduced_price_lunch_total_in_year_by_year
+    assert_equal 100, @ep.free_or_reduced_price_lunch_total_in_year(2014)
+  end
+
+  def test_free_or_reduced_price_lunch_total_in_year_by_year_raises_error_with_unknown_year
+    assert_raises UnknownDataError do
+       @ep.free_or_reduced_price_lunch_total_in_year(14)
+    end
+  end
+
+  def test_title_i_in_year_by_year
+    assert_equal 0.543, @ep.title_i_in_year(2015)
+  end
+
+
+
 end

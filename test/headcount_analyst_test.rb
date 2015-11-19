@@ -133,7 +133,7 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_kindergarten_participation_corrs_wtih_hs_g_in_state_fails
     set_the_first_two_iterations
-    refute @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO')
+    assert @ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO')
   end
 
   def test_kindergarten_participation_corrs_wtih_hs_g_in_state_passes
@@ -155,18 +155,19 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_statewide_growth_for_top_2_districts
     ready_iteration_two_analysis
+
     assert_equal [['COLORADO', 0.004], ["ACADEMY 20", -0.005]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade
     ready_iteration_two_analysis
-    assert_equal ["COLORADO", 0.0],@ha2.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["COLORADO", 0.001],@ha2.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade_with_weighting
 
     ready_iteration_two_analysis
-    assert_equal(["COLORADO", 0.0],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
+    assert_equal(["COLORADO", 0.001],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
   end
 
   def test_if_no_grade_provided_in_year_over_year_growth_throw_insufficient_data_error

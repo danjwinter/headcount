@@ -178,7 +178,6 @@ class HeadcountAnalyst
     weighting = grade_subject_opts[:weighting]
 
     raise_error_guard(requested_grade)
-
     if weighting
       return grab_weighted_subjects(requested_grade, weighting)
     elsif multiple_districts.nil? && requested_subject.nil?

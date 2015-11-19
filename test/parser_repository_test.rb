@@ -51,42 +51,39 @@ class ParserRepositoryTest < Minitest::Test
     }
   end
 
-  def test_statewide_path_pulls_in_fixture_files
-    pr = ParserRepository.new(file_set_2)
-
-    assert_equal({:third_grade=>"./test/fixtures/sample_third_grade_CSAP.csv",
-      :eighth_grade=>"./test/fixtures/sample_eighth_grade_CSAP.csv",
-      :math=>"./test/fixtures/sample_statewide_math.csv",
-      :reading=>"./test/fixtures/sample_statewide_reading.csv",
-      :writing=>"./test/fixtures/sample_statewide_writing.csv"}, pr.statewide_paths)
+  def test_key_for_path_is_present
+    pr = ParserRepository.new(econ_file_set)
+    assert_equal [:economic_profile], pr.parsed.keys
   end
 
-  # def test_parser_repo_can_isolate_enrollment_requests
-  #   assert_equal({  :kindergarten => "./test/fixtures/sample_kindergarten.csv",
-  #                   :high_school_graduation => "./test/fixtures/sample_high_school.csv"}, @pr.enrollment)
-  # end
-  #
-  # def test_high_school_path_isolates_high_school
-  #   assert_equal "./test/fixtures/sample_high_school.csv", @pr.high_school_path(@pr.enrollment)
-  # end
-  #
-  # def test_kindergarten_path_isolates_kindergarten
-  #   assert_equal "./test/fixtures/sample_kindergarten.csv", @pr.kindergarten_path(@pr.enrollment)
-  # end
-  #
-  # def test_direct_path_directs_to_kindergarten_path
-  #   kindergarten_data = @pr.parsed.first
-  #   first_kindergarten_school = kindergarten_data.first
-  #   first_k_school_data = first_kindergarten_school[1]
-  #
-  #   assert first_k_school_data.keys.include?(:kindergarten_participation)
-  # end
-  #
-  # def test_direct_path_directs_to_hs_path
-  #   hs_data = @pr.parsed[1]
-  #   first_hs_school = hs_data.first
-  #   first_hs_school_data = first_hs_school[1]
-  #
-  #   assert first_hs_school_data.keys.include?(:high_school_graduation)
-  # end
+  def test_key_for_another_path_is_present
+    pr = ParserRepository.new(file_set_3)
+    assert_equal [:enrollment, :statewide], pr.parsed.keys
+  end
+
+  def test_parsed_data_returns_array_of_districts
+    pr = ParserRepository.new(file_set_3)
+    assert_equal ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"], pr.parsed[:statewide].keys
+  end
+
+  def test_keys_of_statewide_data_for_colorado_are_grades
+    pr = ParserRepository.new(file_set_3)
+    assert_equal [:third_grade, :eighth_grade, :all_students, :asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white], pr.parsed[:statewide]["COLORADO"].keys
+  end
+
+  def test_keys_of_statewide_data_for_key_of_colorado
+    pr = ParserRepository.new(file_set)
+    assert_equal [:name, :kindergarten_participation], pr.parsed[:enrollment].first["Colorado"].keys
+  end
+
+  def test_keys_of_statewide_data_for_first_element_of_colorado
+    pr = ParserRepository.new(file_set)
+    assert_equal [:name, :high_school_graduation], pr.parsed[:enrollment][1]["Colorado"].keys
+  end
+
+  def test_keys_of_stuff_do_stuff
+    pr = ParserRepository.new(file_set_2)
+    assert_equal [:math, :reading, :writing], pr.parsed[:statewide]["COLORADO"][:third_grade][2008].keys
+  end
+
 end

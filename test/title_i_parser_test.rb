@@ -45,10 +45,6 @@ class TitleIParserTest < Minitest::Test
     assert_equal [2009, 2011, 2012, 2013, 2014], @ti.data_set["COLORADO"][:title_i].keys
   end
 
-  def test_data_from_csv_is_in_data_set
-    load_title_i_file
-  end
-
   def test_student_in_title_i_appears_in_data_set
     load_title_i_file
     assert_equal 0.014, @ti.data_set["ACADEMY 20"][:title_i][2009]

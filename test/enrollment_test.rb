@@ -1,18 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require './lib/enrollment'
 
 class EnrollmentTest < Minitest::Test
 
   def setup
     @en = Enrollment.new(kind_part_data)
-    # @en_bad = Enrollment.new(enrollment_bad_data)
-  end
-
-  def enrollment_name
-    # {:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}}
-    "ACADEMY 20"
   end
 
   def kind_part_data
@@ -46,15 +39,6 @@ class EnrollmentTest < Minitest::Test
     @en.load_new_data(kind_part_data)
     assert_equal nil, @en.kindergarten_participation_in_year(1776)
   end
-  #
-  # def test_bad_data_is_cleaned_up
-  #   output_data = {2010 => 0.3915, 2011 => 0.35356, 2012 => "N/A"}
-  #
-  #   assert_equal output_data, @en_bad.clean_kindergarten_participation_numbers
-  # end
-
-  ###################################################
-  # ITERATION 1
 
   def hs_load_data
     {:high_school_graduation=>{2010=>0.455, 2011=>0.485, 2012=>0.47984}}

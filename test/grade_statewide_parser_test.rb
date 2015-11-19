@@ -50,22 +50,22 @@ class GradeStatewideParserTest < Minitest::Test
   end
 
   def attributes_stub
-    [{:location=>"Colorado",
-  :score=>"Math",
-  :timeframe=>"2008",
-  :dataformat=>"Percent",
-  :data=>"0.697"},
- {:location=>"Colorado",
-  :score=>"Math",
-  :timeframe=>"2009",
-  :dataformat=>"Percent",
-  :data=>"0.691"}]
+    [ {
+      :location=>"Colorado",
+      :score=>"Math",
+      :timeframe=>"2008",
+      :dataformat=>"Percent",
+      :data=>"0.697"
+      },
+      {
+      :location=>"Colorado",
+      :score=>"Math",
+      :timeframe=>"2009",
+      :dataformat=>"Percent",
+      :data=>"0.691"
+      }
+    ]
   end
-
-  # def test_set_subject_and_score_from_year_data
-  #   # year_data = {2008=>{}, 2009=>{}}
-  #   assert_equal({2008=>{:math=>0.697}, 2009=>{:math=>0.691}}, @gsp.set_subject_and_score(attributes_stub, year_data))
-  # end
 
   def test_year_prep_outputs_correct_years_from_attributes
     assert_equal({2008=>{:math=>0.697}, 2009=>{:math=>0.691}}, @gsp.year_prep(attributes_stub, year_data = {}))

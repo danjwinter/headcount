@@ -9,9 +9,11 @@ class KindergartenEnrollmentParserTest < Minitest::Test
   end
 
   def raw_kind_prep_data
-    [{:location=>"ADAMS COUNTY 14", :timeframe=>"2007", :dataformat=>"Percent", :data=>"0.30643"},
-   {:location=>"ADAMS COUNTY 14", :timeframe=>"2006", :dataformat=>"Percent", :data=>"0.29331"},
-   {:location=>"ADAMS COUNTY 14", :timeframe=>"2005", :dataformat=>"Percent", :data=>"0.3"}]
+    [
+    {:location=>"ADAMS COUNTY 14", :timeframe=>"2007", :dataformat=>"Percent", :data=>"0.30643"},
+    {:location=>"ADAMS COUNTY 14", :timeframe=>"2006", :dataformat=>"Percent", :data=>"0.29331"},
+    {:location=>"ADAMS COUNTY 14", :timeframe=>"2005", :dataformat=>"Percent", :data=>"0.3"}
+    ]
   end
 
   def academy_20_parsed_district_data

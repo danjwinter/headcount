@@ -25,51 +25,62 @@ class StatewideTestTest < Minitest::Test
   end
 
   def statewide_data_3
-    {:third_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
-     2009 => {:math => 0.8245, :reading => 0.862, :writing => 0.706},
-     2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
-     2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-     2012 => {:math => 0.830, :reading => 0.8790, :writing => 0.655},
-     2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
-     2014 => {:math => 0.8341, :reading => 0.831, :writing => 0.639}
-   }}
+    {
+      :third_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
+       2009 => {:math => 0.8245, :reading => 0.862, :writing => 0.706},
+       2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
+       2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
+       2012 => {:math => 0.830, :reading => 0.8790, :writing => 0.655},
+       2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
+       2014 => {:math => 0.8341, :reading => 0.831, :writing => 0.639}
+      }
+    }
   end
+
   def truncated_statewide_data_3
-    {:third_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
-     2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
-     2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
-     2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-     2012 => {:math => 0.830, :reading => 0.879, :writing => 0.655},
-     2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
-     2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
-   }}
+    {
+      :third_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
+       2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
+       2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
+       2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
+       2012 => {:math => 0.830, :reading => 0.879, :writing => 0.655},
+       2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
+       2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
+      }
+    }
   end
 
   def statewide_data_8
-    {:eighth_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
-     2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
-     2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
-     2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-     2012 => {:math => 0.830, :reading => 0.587, :writing => 0.655},
-     2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
-     2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
-     }}
+    {
+      :eighth_grade => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
+      2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
+      2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
+      2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
+      2012 => {:math => 0.830, :reading => 0.587, :writing => 0.655},
+      2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
+      2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
+      }
+    }
   end
 
   def asian_data
-    {:asian => { 2011 => {math: 0.816, reading: 0.897, writing: 0.8826},
-     2012 => {math: 0.818, reading: 0.893, writing: 0.808},
-     2013 => {math: 0.8085, reading: 0.901, writing: 0.810},
-     2014 => {math: 0.800, reading: 0.8855, writing: 0.789},
-   }}
+    {
+      :asian => { 2011 => {math: 0.816, reading: 0.897, writing: 0.8826},
+      2012 => {math: 0.818, reading: 0.893, writing: 0.808},
+      2013 => {math: 0.8085, reading: 0.901, writing: 0.810},
+      2014 => {math: 0.800, reading: 0.8855, writing: 0.789},
+      }
+    }
   end
 
   def pacific_islander_data
-   {:pacific_islander => { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
-    2012 => {math: 0.818, reading: 0.893, writing: 0.808},
-    2013 => {math: 0.805, reading: 0.901, writing: 0.810},
-    2014 => {math: 0.800, reading: 0.855, writing: 0.789},
-  }}
+   {
+      :pacific_islander => { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
+      2012 => {math: 0.818, reading: 0.893, writing: 0.808},
+      2013 => {math: 0.805, reading: 0.901, writing: 0.810},
+      2014 => {math: 0.800, reading: 0.855, writing: 0.789},
+      }
+    }
   end
 
   def test_class_exists
@@ -177,6 +188,5 @@ class StatewideTestTest < Minitest::Test
       @st.proficient_for_subject_by_grade_in_year(:math, 5, 1960)
     end
   end
-
 
 end

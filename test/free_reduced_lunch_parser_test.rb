@@ -4,21 +4,12 @@ require './lib/free_reduced_lunch_parser'
 
 class FreeReducedLunchParserTest < Minitest::Test
 
-  # def file_path
-  #   { :economic_profile => {
-  #       :median_household_income => "./test/fixtures/sample_median_household_income.csv"
-  #       :children_in_poverty => "./test/fixtures/sample_school_aged_children_in_poverty.csv",
-  #       :free_or_reduced_price_lunch => "./test/fixtures/sample_students_qualifying_for_lunch.csv",
-  #       :title_i => "./test/fixtures/sample_title_i_students.csv"
-  #     }
-  # end
-
   def setup
     @frlp = FreeReducedLunchParser.new
   end
 
   def file_set_free_reduced_lunch
-  ["./test/fixtures/sample_students_qualifying_for_lunch.csv", :free_or_reduced_price_lunch]
+    ["./test/fixtures/sample_students_qualifying_for_lunch.csv", :free_or_reduced_price_lunch]
   end
 
   def load_lunch_path

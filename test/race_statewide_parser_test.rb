@@ -5,15 +5,15 @@ require './lib/race_statewide_parser'
 class RaceStatewideParserTest < Minitest::Test
 
   def file_set_math_statewide
-      "./test/fixtures/sample_statewide_math.csv"
+    "./test/fixtures/sample_statewide_math.csv"
   end
 
   def file_set_reading_statewide
-      "./test/fixtures/sample_statewide_reading.csv"
+    "./test/fixtures/sample_statewide_reading.csv"
   end
 
   def file_set_writing_statewide
-      "./test/fixtures/sample_statewide_writing.csv"
+    "./test/fixtures/sample_statewide_writing.csv"
   end
 
   def setup
@@ -21,9 +21,11 @@ class RaceStatewideParserTest < Minitest::Test
   end
 
   def asian_opts
-    {2008=> {:math => 0.469, :reading => 0.703, :writing => 0.529},
-    2009=>{:math => 0.499, :reading => 0.726, :writing => 0.528},
-    2010=>{:math => 0.51, :reading => 0.679, :writing => 0.549}}
+    {
+      2008=> {:math => 0.469, :reading => 0.703, :writing => 0.529},
+      2009=>{:math => 0.499, :reading => 0.726, :writing => 0.528},
+      2010=>{:math => 0.51, :reading => 0.679, :writing => 0.549}
+    }
   end
 
   def test_data_set_is_empty_when_class_is_instantiated
@@ -56,14 +58,16 @@ class RaceStatewideParserTest < Minitest::Test
   end
 
   def csv_stub
-    [{:location=>"Colorado", :race_ethnicity=>"All Students", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.5573"},
- {:location=>"Colorado", :race_ethnicity=>"Asian", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.7094"},
- {:location=>"Colorado", :race_ethnicity=>"Black", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3333"},
- {:location=>"Colorado", :race_ethnicity=>"Hawaiian/Pacific Islander", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.541"},
- {:location=>"Colorado", :race_ethnicity=>"Hispanic", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3926"},
- {:location=>"Colorado", :race_ethnicity=>"Native American", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3981"},
- {:location=>"Colorado", :race_ethnicity=>"Two or more", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.6101"},
- {:location=>"Colorado", :race_ethnicity=>"White", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.6585"}]
+    [
+      {:location=>"Colorado", :race_ethnicity=>"All Students", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.5573"},
+      {:location=>"Colorado", :race_ethnicity=>"Asian", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.7094"},
+      {:location=>"Colorado", :race_ethnicity=>"Black", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3333"},
+      {:location=>"Colorado", :race_ethnicity=>"Hawaiian/Pacific Islander", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.541"},
+      {:location=>"Colorado", :race_ethnicity=>"Hispanic", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3926"},
+      {:location=>"Colorado", :race_ethnicity=>"Native American", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.3981"},
+      {:location=>"Colorado", :race_ethnicity=>"Two or more", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.6101"},
+      {:location=>"Colorado", :race_ethnicity=>"White", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.6585"}
+    ]
  end
 
   def test_races_and_dates_are_collected
@@ -120,7 +124,7 @@ class RaceStatewideParserTest < Minitest::Test
   end
 
   def test_district_data_creates_keys_based_on_locations
-      @rsp.load_info([file_set_math_statewide, :math])
+    @rsp.load_info([file_set_math_statewide, :math])
     locations = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
     assert_equal locations, @rsp.data_set.keys
   end

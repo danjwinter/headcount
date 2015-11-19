@@ -1,26 +1,26 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require './lib/economic_profile'
-
 
 class EconomicProfileTest < Minitest::Test
 
   def original_data
-  {:median_household_income => {2015 => 50000, 2014 => 60000},
-        :children_in_poverty => {2012 => 0.1845},
-        :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
-        :title_i => {2015 => 0.543},
-       }
-     end
+      {
+      :median_household_income => {2015 => 50000, 2014 => 60000},
+      :children_in_poverty => {2012 => 0.1845},
+      :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
+      :title_i => {2015 => 0.543},
+      }
+  end
 
   def data
-    {:median_household_income => {[2005, 2009] => 50000, [2008, 2014] => 60000},
-        :children_in_poverty => {2012 => 0.1845},
-        :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
-        :title_i => {2015 => 0.543},
+      {
+      :median_household_income => {[2005, 2009] => 50000, [2008, 2014] => 60000},
+      :children_in_poverty => {2012 => 0.1845},
+      :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
+      :title_i => {2015 => 0.543},
        }
-     end
+  end
 
   def test_class_exists
     assert EconomicProfile
@@ -95,6 +95,5 @@ class EconomicProfileTest < Minitest::Test
        @ep.title_i_in_year(14)
     end
   end
-
 
 end

@@ -1,8 +1,4 @@
-class UnknownDataError < StandardError
-end
-
-class UnknownRaceError < StandardError
-end
+require_relative './custom_errors'
 
 class StatewideTest
   attr_reader :name, :grade_proficiency, :race_stats
@@ -94,5 +90,4 @@ class StatewideTest
   def truncate(value)
     ((value * 1000).floor/1000.0)
   end
-
 end

@@ -9,9 +9,11 @@ class HighSchoolEnrollmentParserTest < Minitest::Test
   end
 
   def raw_high_grad_data
-    [{:location=>"ADAMS COUNTY 14", :timeframe=>"2010", :dataformat=>"Percent", :data=>"0.57"},
-   {:location=>"ADAMS COUNTY 14", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.608"},
-   {:location=>"ADAMS COUNTY 14", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.63372"}]
+    [
+      {:location=>"ADAMS COUNTY 14", :timeframe=>"2010", :dataformat=>"Percent", :data=>"0.57"},
+      {:location=>"ADAMS COUNTY 14", :timeframe=>"2011", :dataformat=>"Percent", :data=>"0.608"},
+      {:location=>"ADAMS COUNTY 14", :timeframe=>"2012", :dataformat=>"Percent", :data=>"0.63372"}
+    ]
   end
 
   def academy_20_parsed_district_data
@@ -37,7 +39,6 @@ class HighSchoolEnrollmentParserTest < Minitest::Test
     assert_equal academy_20_parsed_district_data, @hsep.district_data.fetch("ACADEMY 20")
   end
 
-  # CHECK TEST NAME
   def test_high_school_graduation_prep_returns_high_grad_data
     assert_equal({2010=>0.57, 2011=>0.608, 2012=>0.63372}, @hsep.high_school_graduation_prep(raw_high_grad_data))
   end

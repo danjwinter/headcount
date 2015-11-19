@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require './lib/enrollment_repository'
 
 class EnrollmentRepositoryTest < Minitest::Test
@@ -14,16 +13,19 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def file_set
-    {:enrollment => {
+    {
+      :enrollment => {
       :kindergarten => "./test/fixtures/sample_kindergarten.csv"
       }
     }
   end
 
   def file_set_2
-    {:enrollment => {
-       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
-       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    {
+      :enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+      :high_school_graduation => "./test/fixtures/sample_high_school.csv"
+      }
     }
   end
 
@@ -57,9 +59,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   def test_enrollments_are_not_found_if_name_doesnt_exist
     @er.load_data(file_set)
     enrollment_object = @er.find_by_name("Montana")
-
     assert_equal nil, enrollment_object
   end
-
 
 end

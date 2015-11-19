@@ -10,13 +10,15 @@ class StatewideTestRepositoryTest < Minitest::Test
   end
 
   def file_set
-    {:statewide_testing => {
-   :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
-   :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
-   :math => "./test/fixtures/sample_statewide_math.csv",
-   :reading => "./test/fixtures/sample_statewide_reading.csv",
-   :writing => "./test/fixtures/sample_statewide_writing.csv"
- }}
+    {
+      :statewide_testing => {
+      :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+      :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+      :math => "./test/fixtures/sample_statewide_math.csv",
+      :reading => "./test/fixtures/sample_statewide_reading.csv",
+      :writing => "./test/fixtures/sample_statewide_writing.csv"
+      }
+    }
   end
 
   def test_class_exists
@@ -53,9 +55,7 @@ class StatewideTestRepositoryTest < Minitest::Test
   def test_statewide_tests_are_not_found_if_name_doesnt_exist
     @str.load_data(file_set)
     enrollment_object = @str.find_by_name("Montana")
-
     assert_equal nil, enrollment_object
   end
-
 
 end

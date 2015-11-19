@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require './lib/district'
 require './lib/district_repository'
 
@@ -44,6 +43,5 @@ class DistrictTest < Minitest::Test
     assert_equal "ADAMS COUNTY 14", ad14obj.name
     assert_equal "ADAMS COUNTY 14", ad14obj.enrollment.name
   end
-
 
 end

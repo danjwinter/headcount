@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'minitest/pride'
-require 'pry'
 require './lib/economic_profile_repository'
 
 class EconomicProfileRepositoryTest < Minitest::Test
@@ -32,7 +31,7 @@ class EconomicProfileRepositoryTest < Minitest::Test
   def test_economic_loads_econ_sample_data
     @epr.load_data(file_set)
     ep_records_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
-    
+
     assert_equal 4, @epr.ep_records.count
     assert_equal [EconomicProfile, EconomicProfile, EconomicProfile, EconomicProfile], @epr.ep_records.values.map {|ob| ob.class}
     assert_equal EconomicProfile, @epr.ep_records.fetch("COLORADO").class
@@ -57,6 +56,5 @@ class EconomicProfileRepositoryTest < Minitest::Test
 
     assert_equal nil, economic_object
   end
-
 
 end

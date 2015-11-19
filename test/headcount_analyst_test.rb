@@ -8,30 +8,36 @@ require './lib/headcount_analyst'
 class HeadcountAnalystTest < Minitest::Test
 
   def file_set
-    {:enrollment => {
-       :kindergarten => "./test/fixtures/sample_kindergarten.csv",
-       :high_school_graduation => "./test/fixtures/sample_high_school.csv" }
+    {
+      :enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+      :high_school_graduation => "./test/fixtures/sample_high_school.csv"
+      }
     }
   end
 
   def file_set_stellar
-    {:enrollment => {
-       :kindergarten => "./test/fixtures/sample_kindergarten_stellar.csv",
-       :high_school_graduation => "./test/fixtures/sample_high_school_stellar.csv" }}
+    {
+      :enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten_stellar.csv",
+      :high_school_graduation => "./test/fixtures/sample_high_school_stellar.csv"
+      }
+    }
   end
 
   def file_set_3
-    {:enrollment => {
-    :kindergarten => "./test/fixtures/sample_kindergarten.csv",
-    :high_school_graduation => "./test/fixtures/sample_high_school.csv" },
-
-    :statewide_testing => {
-    :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
-    :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
-    :math => "./test/fixtures/sample_statewide_math.csv",
-    :reading => "./test/fixtures/sample_statewide_reading.csv",
-    :writing => "./test/fixtures/sample_statewide_writing.csv"
-    }
+    {
+      :enrollment => {
+      :kindergarten => "./test/fixtures/sample_kindergarten.csv",
+      :high_school_graduation => "./test/fixtures/sample_high_school.csv"
+      },
+      :statewide_testing => {
+      :third_grade => "./test/fixtures/sample_third_grade_CSAP.csv",
+      :eighth_grade => "./test/fixtures/sample_eighth_grade_CSAP.csv",
+      :math => "./test/fixtures/sample_statewide_math.csv",
+      :reading => "./test/fixtures/sample_statewide_reading.csv",
+      :writing => "./test/fixtures/sample_statewide_writing.csv"
+      }
     }
   end
 
@@ -55,7 +61,6 @@ class HeadcountAnalystTest < Minitest::Test
   def test_kindergarten_participation_rate_variation_is_accurate_against_state
     set_the_first_two_iterations
     kprv = @ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
-
     assert_equal 1.002, kprv
   end
 
@@ -118,14 +123,12 @@ class HeadcountAnalystTest < Minitest::Test
   def test_kindergarten_participation_rate_variation_trend_returns_hash_with_average_of_each_year
     set_the_first_two_iterations
     variation_rate = @ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
-
     assert_equal({2005=>0.272, 2006=>0.344, 2007=>0.392}, variation_rate)
   end
 
   def test_hs_graduation_rate_is_accurate_vs_state
     set_the_first_two_iterations
     hsgr = @ha.hs_graduation_rate_variation('ACADEMY 20', :against => 'COLORADO')
-
     assert_equal 1.209, hsgr
   end
 
@@ -137,7 +140,6 @@ class HeadcountAnalystTest < Minitest::Test
   def test_kindergarten_participation_against_high_school_graduation_rate
     set_the_first_two_iterations
     kpahsg = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
-
     assert_equal 0.828, kpahsg
   end
 
@@ -182,16 +184,10 @@ class HeadcountAnalystTest < Minitest::Test
     ready_iteration_two_analysis
     assert_equal false, @ha2.multiple_district_kind_par_with_high_grad({:across=>["ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]})
   end
-  # 
-  # def test_district_1_name_returns_name
-  #   ready_iteration_two_analysis
-  #   assert_equal "Brenna", @ha2.district1("Colorado")
-  # end
 
   def test_statewide_growth_year_over_year
     ready_iteration_two_analysis
     method_call = @ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-    # assert_equal ['COLORADO', 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     assert_equal ['COLORADO', 0.004500000000000004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
   end
 

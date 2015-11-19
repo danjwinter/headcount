@@ -18,7 +18,6 @@ class MedianHouseholdIncomeParserTest < Minitest::Test
 
   def test_year_in_range_is_included
     load_median_household_income
-
   end
 
 end

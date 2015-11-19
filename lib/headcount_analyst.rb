@@ -237,15 +237,11 @@ class HeadcountAnalyst
     reading_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :reading}).sort
 
     all_subject_average = math_top.map.each_with_index do |element, index|
-
-        # if element[0] == "WILEY RE-13 JT"
-        #   binding.pry
-        # end
-        writing = writing_top.select {|el| el[0] == element[0]}
-        reading = reading_top.select {|el| el[0] == element[0]}
-    unless element[0] == nil || element[1] == nil || writing[0] == nil || reading[0] == nil
-      [element[0], truncate((element[1] + writing[0][1] + reading[0][1]) / 3)]
-    end
+      writing = writing_top.select {|el| el[0] == element[0]}
+      reading = reading_top.select {|el| el[0] == element[0]}
+      unless element[0] == nil || element[1] == nil || writing[0] == nil || reading[0] == nil
+        [element[0], truncate((element[1] + writing[0][1] + reading[0][1]) / 3)]
+      end
     end
 
     sorted_top_districts = all_subject_average.compact.sort_by do |pair|
@@ -256,34 +252,37 @@ class HeadcountAnalyst
   end
 
   def get_growth(data, requested_grade, requested_subject, x = 0, numbers = [])
-
     values = data.grade_proficiency[requested_grade].values
     years = data.grade_proficiency[requested_grade].keys
     num_of_years = data.grade_proficiency[requested_grade].values.length
 
-    math_values = values.map do |year_data|
+    math_values  = assign_subject_data(values, requested_subject)
+    filtered_math_data = filter_set(math_values, years)
+    average_set(filtered_math_data)
+  end
+
+  def assign_subject_data(values, requested_subject)
+    values.map do |year_data|
       year_data[requested_subject]
     end
+  end
 
-
-
-
+  def filter_set(math_values, years)
     filtered_math_data = math_values.map.each_with_index do |element, index|
       if element != "N/A"
         [element, years[index]]
       end
     end.compact
+  end
 
-    # if requested_subject == :math && requested_grade == 3 && data.name == "ARRIBA-FLAGLER C-20"
-    #   binding.pry
-    # end
-
-    # -99999
+  def average_set(filtered_math_data)
     if filtered_math_data.count == 1
       0.0001
     elsif filtered_math_data.count > 1
     (filtered_math_data[-1][0] - filtered_math_data[0][0]) / (filtered_math_data[-1][1] - filtered_math_data[0][1])
     end
-
   end
+
+
+
 end

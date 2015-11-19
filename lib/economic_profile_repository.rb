@@ -56,8 +56,7 @@ class EconomicProfileRepository
 
   def load_data(file_set)
     parsed_economic_data(file_set).each do |name, data|
-      ep_records[name] ||= EconomicProfile.new(name)
-      ep_records[name].load_new_data(data)
+      ep_records[name] ||= EconomicProfile.new(data)
     end
   end
 

@@ -34,6 +34,7 @@ class EconomicProfileRepository
 
   def load_data(file_set)
     parsed_economic_data(file_set).each do |name, data|
+        data.merge!({name: name})
       ep_records[name] ||= EconomicProfile.new(data)
     end
   end

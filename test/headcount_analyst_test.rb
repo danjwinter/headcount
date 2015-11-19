@@ -59,6 +59,16 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal 1.002, kprv
   end
 
+  def test_rate_variate_data_guard_returns_NA
+    ready_iteration_two_analysis
+    assert_equal "N/A", @ha2.rate_variation_data_guard("N/A", 0.123)
+  end
+
+  def test_rate_variation_data_guard_returns_number_if_not_NA
+    ready_iteration_two_analysis
+    assert_equal 0.891, @ha2.rate_variation_data_guard(0.2996666666666667, 0.336)
+  end
+
   def test_truncate_truncates
     set_the_first_two_iterations
     assert_equal 1.234, @ha.truncate(1.2345)
@@ -119,6 +129,11 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal 1.209, hsgr
   end
 
+  def test_non_co_district_names_encompasses_individual_districts
+    set_the_first_two_iterations
+    assert_equal ["ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"], @ha.non_co_district_names
+  end
+
   def test_kindergarten_participation_against_high_school_graduation_rate
     set_the_first_two_iterations
     kpahsg = @ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
@@ -148,20 +163,41 @@ class HeadcountAnalystTest < Minitest::Test
     assert @ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'STELLAR SCHOOL', 'ADAMS COUNTY 14'])
   end
 
+  def test_single_district_kind_par_with_high_grad_works_if_colorado
+    ready_iteration_two_analysis
+    assert @ha2.single_district_kind_par_with_high_grad(for: "ACADEMY 20")
+  end
+
+  def test_single_district_kind_par_with_high_grad_works_if_statewide
+    ready_iteration_two_analysis
+    refute @ha2.single_district_kind_par_with_high_grad(for: "STATEWIDE")
+  end
+
+  def test_single_district_kind_par_with_grad_returns_false_if_false
+    ready_iteration_two_analysis
+    assert @ha2.single_district_kind_par_with_high_grad(for: "ADAMS COUNTY 14")
+  end
+
+  def test_returns_false_if_districts_are_under_point_7
+    ready_iteration_two_analysis
+    assert_equal false, @ha2.multiple_district_kind_par_with_high_grad({:across=>["ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]})
+  end
+  # 
+  # def test_district_1_name_returns_name
+  #   ready_iteration_two_analysis
+  #   assert_equal "Brenna", @ha2.district1("Colorado")
+  # end
+
   def test_statewide_growth_year_over_year
     ready_iteration_two_analysis
     method_call = @ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     # assert_equal ['COLORADO', 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     assert_equal ['COLORADO', 0.004500000000000004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-
   end
 
   def test_statewide_growth_for_top_2_districts
     ready_iteration_two_analysis
-
-    # assert_equal [['COLORADO', 0.004], ["ACADEMY 20", -0.005]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
     assert_equal [["COLORADO", 0.004500000000000004], ["ACADEMY 20", -0.0040000000000000036]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
-
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade

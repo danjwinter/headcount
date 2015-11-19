@@ -12,7 +12,11 @@ class Enrollment
   end
 
   def kindergarten_participation_in_year(year)
-    truncate(kindergarten_participation[year])
+    if kindergarten_participation[year]
+      truncate(kindergarten_participation[year])
+    else
+      nil
+    end
   end
 
   def graduation_rate_in_year(year)

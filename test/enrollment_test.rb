@@ -6,7 +6,7 @@ require './lib/enrollment'
 class EnrollmentTest < Minitest::Test
 
   def setup
-    @en = Enrollment.new(enrollment_name)
+    @en = Enrollment.new(kind_part_data)
     # @en_bad = Enrollment.new(enrollment_bad_data)
   end
 

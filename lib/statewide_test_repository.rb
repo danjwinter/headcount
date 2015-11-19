@@ -14,10 +14,14 @@ class StatewideTestRepository
 
   def load_statewide_info(district_and_statewide_opts)
     district_and_statewide_opts.each do |name, data|
-      if st_records[name].nil?
-        st_records[name] = StatewideTest.new(name)
-      end
+      create_new_state(name)
       st_records[name].load_new_data(data)
+    end
+  end
+
+  def create_new_state(name)
+    if st_records[name].nil?
+      st_records[name] = StatewideTest.new(name)
     end
   end
 
@@ -28,12 +32,9 @@ class StatewideTestRepository
   end
 
   def load_statewide(category_data)
-    binding.pry
     category_data.each do |grade|
       grade.each_pair do |statewide, attribute|
-        if st_records[statewide].nil?
-          st_records[statewide] = StatewideTest.new(statewide)
-        end
+        create_new_state(statewide)
         st_records[statewide].load_new_data(attribute)
       end
     end

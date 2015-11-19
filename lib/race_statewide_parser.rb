@@ -17,9 +17,7 @@ class RaceStatewideParser
   end
 
   def build_data_set
-    if self.data_set.keys.empty?
-      set_up_data_hash
-    end
+    data_set_key_setup
     final_data = grouped_data_by_district_name.dup
     grouped_data_by_district_name.each_pair do |key, value|
       district_data_value(key, value, final_data)
@@ -27,10 +25,15 @@ class RaceStatewideParser
     final_data
   end
 
+  def data_set_key_setup
+    if data_set.keys.empty?
+      set_up_data_hash
+    end
+  end
+
   def set_up_data_hash
     districts = grouped_data_by_district_name.keys.each {|district| district.upcase}
-    races = []
-    dates = []
+    races = []; dates = []
     collect_races_and_dates(races, dates)
     configure_hash(districts, races, dates)
   end
@@ -61,27 +64,17 @@ class RaceStatewideParser
   end
 
   def race_setup(races, dates)
-    race_opts = {}
-    races.each do |race|
-      race_opts[race] = date_setup(dates)
-    end
-    race_opts
+    races.map {|race| [race, date_setup(dates)]}.to_h
   end
 
   def date_setup(dates)
-    date_opts = {}
-    dates.each do |date|
-      date_opts[date.to_i] = {math: nil, reading: nil, writing: nil}
-    end
-    date_opts
+    dates.map {|date| [date.to_i, {math: nil, reading: nil, writing: nil}]}.to_h
   end
 
   def district_data_value(key, value, final_data)
     value.each do |line|
-      district = key.upcase
-      race = symbolize_spaced(line[:race_ethnicity])
-      year = line[:timeframe].to_i
-      score = line[:data].to_f
+      district = key.upcase; race = symbolize_spaced(line[:race_ethnicity])
+      year = line[:timeframe].to_i; score = line[:data].to_f
       self.data_set[district][race][year][@subject] = score
     end
   end

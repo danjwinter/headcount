@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class GradeStatewideParser
 
@@ -24,10 +23,13 @@ class GradeStatewideParser
   end
 
   def district_data_value(key, value, final_data)
-
     districts_data_collection = {}
     year_data = {}
     districts_data_collection[@grade] = year_prep(value, year_data)
+    merge_multiple_grade_data(key, districts_data_collection)
+  end
+
+  def merge_multiple_grade_data(key, districts_data_collection)
     if data_set[key]
       data_set[key].merge!(districts_data_collection)
     else
@@ -37,7 +39,6 @@ class GradeStatewideParser
 
   def year_prep(attributes, year_data)
     attributes.map do |attribute|
-
       attribute[:timeframe].to_i
     end.uniq.each do |year|
       year_data[year] = {}
@@ -48,16 +49,19 @@ class GradeStatewideParser
   def set_subject_and_score(year_data, attributes)
     attributes.each do |attribute|
       subject = attribute[:score].downcase.to_sym
-      
-      num_test = attribute[:data] =~ /\d/
-      if  num_test.is_a? Numeric
-        score = attribute[:data].to_f
-      else
-        score = "N/A"
-      end
+      score = cleansed(attribute)
       year_data[attribute[:timeframe].to_i].merge!({subject => score})
     end
     year_data
+  end
+
+  def cleansed(attribute)
+    num_test = attribute[:data] =~ /\d/
+    if  num_test.is_a? Numeric
+      attribute[:data].to_f
+    else
+      "N/A"
+    end
   end
 
   def grouped_data_by_district_name

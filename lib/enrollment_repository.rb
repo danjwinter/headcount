@@ -1,7 +1,6 @@
 require_relative 'kindergarten_enrollment_parser'
 require_relative 'enrollment'
 require_relative 'parser_repository'
-require 'pry'
 
 class EnrollmentRepository
   attr_accessor :e_records
@@ -12,28 +11,23 @@ class EnrollmentRepository
 
   def load_enrollment_data(enrollment_opts)
     enrollment_opts.each do |enrollment, attribute|
-      binding.pry
       enrollment.upcase!
-      if e_records[enrollment].nil?
-        e_records[enrollment] = Enrollment.new(enrollment)
-      end
+      create_new_enrollment(enrollment, attribute)
       e_records[enrollment].load_new_data(attribute)
     end
-    #grab keys from opts and iterate through each to create a new enrollment object if one doesn't exist within the e_records
-    # take values associated with those enrollment keys and send as attributes to load_new_data for each enrollment
+  end
 
-    # parsed_enrollment_data(file_set).each do |category_data|
-    #   load_enrollments(category_data)
-    # end
+  def create_new_enrollment(enrollment, attribute)
+    if e_records[enrollment].nil?
+      e_records[enrollment] = Enrollment.new(attribute)
+    end
   end
 
   def load_enrollments(enrollment_opts)
     enrollment_opts.each do |enrollments|
       enrollments.each do |enrollment, attribute|
         enrollment = enrollment.upcase
-        if e_records[enrollment].nil?
-          e_records[enrollment] = Enrollment.new(enrollment)
-        end
+        create_new_enrollment(enrollment, attribute)
         e_records[enrollment].load_new_data(attribute)
       end
     end
@@ -55,8 +49,8 @@ class EnrollmentRepository
 
   def create_enrollments(category_data, file_set)
     category_data.each do |enrollment_name, attributes|
-        e_records[enrollment_name.upcase] ||= Enrollment.new(enrollment_name)
-        e_records[enrollment_name.upcase].load_new_data(attributes)
-   end
- end
+      e_records[enrollment_name.upcase] ||= Enrollment.new(attributes)
+      e_records[enrollment_name.upcase].load_new_data(attributes)
+    end
+  end
 end

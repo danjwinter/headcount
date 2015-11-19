@@ -1,13 +1,10 @@
-class UnknownDataError < StandardError
-end
+require_relative 'custom_errors'
 
 class EconomicProfile
 
   attr_reader :median_household_income, :children_in_poverty, :free_or_reduced_price_lunch, :title_i, :median_household_income_with_range
 
   def initialize(data)
-
-    @name ||= data[:name]
     @median_household_income ||= data[:median_household_income]
     @median_household_income_with_range ||= data[:median_household_income].map {|k,v| [k[0]..k[1], v]}.to_h
     @children_in_poverty ||= data[:children_in_poverty]
@@ -15,16 +12,23 @@ class EconomicProfile
     @title_i ||= data[:title_i]
   end
 
-  def median_household_income_in_year(year)
-    income = median_household_income_with_range.select do |k,v|
-      k.include?(year)
-    end.values
+  def estimated_median_household_income_in_year(year)
+    income = income_amounts(year)
+    aggregate(income)
+  end
 
+  def aggregate(income)
     if income.length > 1
       income.reduce(:+) / income.length
     else
       income[0]
     end
+  end
+
+  def income_amounts(year)
+    median_household_income_with_range.select do |k,v|
+      k.include?(year)
+    end.values
   end
 
   def median_household_income_average
@@ -36,7 +40,7 @@ class EconomicProfile
     truncate(@children_in_poverty[year])
   end
 
-  def free_or_reduced_price_lunch_in_year(year)
+  def free_or_reduced_price_lunch_percentage_in_year(year)
     if free_or_reduced_price_lunch.keys.include?(year)
       truncate(free_or_reduced_price_lunch[year][:percentage])
     else
@@ -44,7 +48,7 @@ class EconomicProfile
     end
   end
 
-  def free_or_reduced_price_lunch_total_in_year(year)
+  def free_or_reduced_price_lunch_number_in_year(year)
     if free_or_reduced_price_lunch.keys.include?(year)
       truncate(free_or_reduced_price_lunch[year][:total])
     else
@@ -63,5 +67,4 @@ class EconomicProfile
   def truncate(value)
     ((value * 1000).floor/1000.0)
   end
-
 end

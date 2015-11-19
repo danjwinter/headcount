@@ -43,7 +43,7 @@ class StatewideTest
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
     if available_races.include?(race) && available_subjects.include?(subject) && @race_stats[race].keys.include?(year)
-    truncate(@race_stats[race][year][subject])
+      truncate(@race_stats[race][year][subject])
     else
       raise UnknownDataError
     end
@@ -51,7 +51,11 @@ class StatewideTest
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
     if available_grades.include?(grade) && available_subjects.include?(subject) && @grade_proficiency[grade].keys.include?(year)
-    truncate(@grade_proficiency[grade][year][subject])
+      if @grade_proficiency[grade][year][subject] == "N/A"
+        "N/A"
+      else
+        truncate(@grade_proficiency[grade][year][subject])
+      end
     else
       raise UnknownDataError
     end
@@ -90,7 +94,5 @@ class StatewideTest
   def truncate(value)
     ((value * 1000).floor/1000.0)
   end
-
-
 
 end

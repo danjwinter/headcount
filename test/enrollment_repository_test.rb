@@ -28,11 +28,13 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_enrollments_starts_as_empty_hash
+    skip
     assert_equal 0, @er.e_records.length
     assert_equal({}, @er.e_records)
   end
 
   def test_enrollments_loads_kindergarten_sample_data
+    skip
     @er.load_data(file_set)
     e_records_keys = ["COLORADO", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"]
 
@@ -44,6 +46,7 @@ class EnrollmentRepositoryTest < Minitest::Test
   end
 
   def test_enrollments_are_found_by_name
+    skip
     @er.load_data(file_set)
     enrollment_object1 = @er.find_by_name("Colorado")
     enrollment_object2 = @er.find_by_name("ACADEMY 20")

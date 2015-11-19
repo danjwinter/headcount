@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/emoji'
+require 'minitest/pride'
 require './lib/free_reduced_lunch_parser'
 
 class FreeReducedLunchParserTest < Minitest::Test

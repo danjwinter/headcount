@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/emoji'
+require 'minitest/pride'
 require './lib/median_household_income_parser'
 
 class MedianHouseholdIncomeParserTest < Minitest::Test

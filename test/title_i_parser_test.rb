@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/emoji'
+require 'minitest/pride'
 require './lib/title_i_parser'
 
 class TitleIParserTest < Minitest::Test

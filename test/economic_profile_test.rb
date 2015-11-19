@@ -51,11 +51,11 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_estimated_median_household_income_in_year_by_year
-    assert_equal 50000, @ep.median_household_income_in_year(2005)
+    assert_equal 50000, @ep.estimated_median_household_income_in_year(2005)
   end
 
   def test_estimated_median_household_income_in_year_by_year_for_year_in_multiple_income_ranges
-    assert_equal 55000, @ep.median_household_income_in_year(2008)
+    assert_equal 55000, @ep.estimated_median_household_income_in_year(2008)
   end
 
   def test_median_household_income_average_returns_average_of_
@@ -67,22 +67,22 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_free_or_reduced_price_lunch_percentage_in_year_by_year
-    assert_equal 0.023, @ep.free_or_reduced_price_lunch_in_year(2014)
+    assert_equal 0.023, @ep.free_or_reduced_price_lunch_percentage_in_year(2014)
   end
 
   def test_free_or_reduced_price_lunch_percentage_in_year_by_year_raises_error_with_unknown_year
     assert_raises UnknownDataError do
-       @ep.free_or_reduced_price_lunch_in_year(14)
+       @ep.free_or_reduced_price_lunch_percentage_in_year(14)
     end
   end
 
   def test_free_or_reduced_price_lunch_total_in_year_by_year
-    assert_equal 100, @ep.free_or_reduced_price_lunch_total_in_year(2014)
+    assert_equal 100, @ep.free_or_reduced_price_lunch_number_in_year(2014)
   end
 
   def test_free_or_reduced_price_lunch_total_in_year_by_year_raises_error_with_unknown_year
     assert_raises UnknownDataError do
-       @ep.free_or_reduced_price_lunch_total_in_year(14)
+       @ep.free_or_reduced_price_lunch_percentage_in_year(14)
     end
   end
 

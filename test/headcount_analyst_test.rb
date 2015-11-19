@@ -150,13 +150,18 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_statewide_growth_year_over_year
     ready_iteration_two_analysis
-    assert_equal ['COLORADO', 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+    method_call = @ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+    # assert_equal ['COLORADO', 0.004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+    assert_equal ['COLORADO', 0.004500000000000004],@ha2.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+
   end
 
   def test_statewide_growth_for_top_2_districts
     ready_iteration_two_analysis
 
-    assert_equal [['COLORADO', 0.004], ["ACADEMY 20", -0.005]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
+    # assert_equal [['COLORADO', 0.004], ["ACADEMY 20", -0.005]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
+    assert_equal [["COLORADO", 0.004500000000000004], ["ACADEMY 20", -0.0040000000000000036]], @ha2.top_statewide_test_year_over_year_growth(grade: 3, top: 2, subject: :math)
+
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade
@@ -165,7 +170,6 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_statewide_growth_across_all_subjects_when_only_given_grade_with_weighting
-
     ready_iteration_two_analysis
     assert_equal(["COLORADO", 0.001],@ha2.top_statewide_test_year_over_year_growth(grade: 3, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}))
   end
@@ -177,17 +181,5 @@ class HeadcountAnalystTest < Minitest::Test
     end
     assert_equal('A grade must be provided to answer this question.', exception.message)
   end
-  #
-  # def test_if_bad_grade_provided_in_year_over_year_growth_throw_unknown_data_error
-  #   ready_iteration_two_analysis
-  #   exception = assert_raises(UnknownDataError) do
-  #     @ha2.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
-  #   end
-  #
-  #   assert_equal("9 is not a known grade.", exception.message)
-  # end
-
-
-
 
 end

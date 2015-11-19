@@ -16,9 +16,41 @@ class TitleIParserTest < Minitest::Test
     @ti.load_info(file_set_title_i_students)
   end
 
-  def wtf
-    load_children_in_poverty
+  def test_class_exists
+    assert @ti
   end
+
+  def test_class_starts_with_empty_hash
+    assert_equal 0, @ti.data_set.count
+  end
+
+  def test_load_info_doesnt_return_nil
+    load_title_i_file
+    refute_equal nil, @ti.data_set_up
+    refute_equal nil, @ti.district_data
+  end
+
+  def test_data_set_up_contains_data
+    load_title_i_file
+    assert_equal ["Colorado", "ACADEMY 20", "ADAMS COUNTY 14", "ADAMS-ARAPAHOE 28J"], @ti.data_set_up.keys
+  end
+
+  def test_district_data_is_a_hash_of_arrays
+    load_title_i_file
+    assert_equal Array, @ti.district_data["Colorado"].class
+  end
+
+  def test_years_from_csv_are_in_data_set
+    load_title_i_file
+    assert_equal [2009, 2011, 2012, 2013, 2014], @ti.data_set["COLORADO"][:title_i].keys
+  end
+
+  def test_data_from_csv_is_in_data_set
+    load_title_i_file
+    # assert_equal [2009, 2011, 2012, 2013, 2014], @ti.data_set["COLORADO"][:title_i].keys
+  end
+
+
 
   def test_student_in_title_i_appears_in_data_set
     load_title_i_file

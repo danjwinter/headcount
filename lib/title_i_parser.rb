@@ -13,7 +13,6 @@ class TitleIParser
   def load_info(path_econ_prof)
     @csv = CSV.read(path_econ_prof[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
     @econ_prof_key = path_econ_prof[1]
-
     data_set_up
     district_data
   end

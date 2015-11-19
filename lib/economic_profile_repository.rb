@@ -13,7 +13,6 @@ class EconomicProfileRepository
   end
 
   def load_economic_info(district_and_economic_opts)
-    # binding.pry
     district_and_economic_opts.each do |k, v|
       v.merge!({name: k})
     end

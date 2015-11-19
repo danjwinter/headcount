@@ -51,7 +51,11 @@ class StatewideTest
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
     if available_grades.include?(grade) && available_subjects.include?(subject) && @grade_proficiency[grade].keys.include?(year)
-    truncate(@grade_proficiency[grade][year][subject])
+      if @grade_proficiency[grade][year][subject] == "N/A"
+        "N/A"
+      else
+        truncate(@grade_proficiency[grade][year][subject])
+      end
     else
       raise UnknownDataError
     end

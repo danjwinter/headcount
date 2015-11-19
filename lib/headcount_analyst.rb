@@ -9,13 +9,13 @@ end
 
 class UnknownDataError < StandardError
 
-  attr_reader :requested_grade
-  def initialize(requested_grade)
-    @requested_grade = requested_grade
-  end
-  def message
-    "#{requested_grade} is not a known grade."
-  end
+  # attr_reader :requested_grade
+  # def initialize(requested_grade)
+  #   @requested_grade = requested_grade
+  # end
+  # def message
+  #   "#{requested_grade} is not a known grade."
+  # end
 end
 
 class HeadcountAnalyst
@@ -189,9 +189,15 @@ class HeadcountAnalyst
       [name, get_growth(data, requested_grade, requested_subject)]
     end
 
+    final_growth_stats.reject! {|pair| pair[1] == nil}
+
+
     stuff = final_growth_stats.sort_by do |pair|
-      pair[1]
+        pair[1]
     end.reverse
+    # if requested_subject == :math && requested_grade == 3
+    #   binding.pry
+    # end
 
     if multiple_districts
       stuff[0..(multiple_districts-1)]
@@ -231,10 +237,18 @@ class HeadcountAnalyst
     reading_top = top_statewide_test_year_over_year_growth({all: "districts", grade: requested_grade, subject: :reading}).sort
 
     all_subject_average = math_top.map.each_with_index do |element, index|
-      [element[0], truncate((element[1] + writing_top[index][1] + reading_top[index][1]) / 3)]
+
+        # if element[0] == "WILEY RE-13 JT"
+        #   binding.pry
+        # end
+        writing = writing_top.select {|el| el[0] == element[0]}
+        reading = reading_top.select {|el| el[0] == element[0]}
+    unless element[0] == nil || element[1] == nil || writing[0] == nil || reading[0] == nil
+      [element[0], truncate((element[1] + writing[0][1] + reading[0][1]) / 3)]
+    end
     end
 
-    sorted_top_districts = all_subject_average.sort_by do |pair|
+    sorted_top_districts = all_subject_average.compact.sort_by do |pair|
       pair[1]
     end.reverse
 
@@ -251,6 +265,25 @@ class HeadcountAnalyst
       year_data[requested_subject]
     end
 
-    truncate((math_values[-1] - math_values[0]) / (years[-1] - years[0]))
+
+
+
+    filtered_math_data = math_values.map.each_with_index do |element, index|
+      if element != "N/A"
+        [element, years[index]]
+      end
+    end.compact
+
+    # if requested_subject == :math && requested_grade == 3 && data.name == "ARRIBA-FLAGLER C-20"
+    #   binding.pry
+    # end
+
+    # -99999
+    if filtered_math_data.count == 1
+      0.0001
+    elsif filtered_math_data.count > 1
+    (filtered_math_data[-1][0] - filtered_math_data[0][0]) / (filtered_math_data[-1][1] - filtered_math_data[0][1])
+    end
+
   end
 end

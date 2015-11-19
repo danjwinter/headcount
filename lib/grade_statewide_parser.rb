@@ -48,7 +48,7 @@ class GradeStatewideParser
   def set_subject_and_score(year_data, attributes)
     attributes.each do |attribute|
       subject = attribute[:score].downcase.to_sym
-      
+
       num_test = attribute[:data] =~ /\d/
       if  num_test.is_a? Numeric
         score = attribute[:data].to_f

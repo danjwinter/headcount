@@ -12,9 +12,7 @@ class Enrollment
   end
 
   def kindergarten_participation_in_year(year)
-    # binding.pry
     truncate(kindergarten_participation[year])
-    # kindergarten_participation_by_year[year]
   end
 
   def graduation_rate_in_year(year)
@@ -31,5 +29,4 @@ class Enrollment
     @kindergarten_participation ||= attribute[:kindergarten_participation]
     @graduation_rate_by_year ||= attribute[:high_school_graduation]
   end
-
 end

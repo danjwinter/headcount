@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class FreeReducedLunchParser
 
@@ -32,7 +31,6 @@ class FreeReducedLunchParser
   def district_data
     final_data = grouped_data_by_district_name.dup
     grouped_data_by_district_name.each_pair do |key, value|
-
       district_data_value(key.upcase, value)
     end
   end
@@ -42,11 +40,15 @@ class FreeReducedLunchParser
       attribute[:poverty_level] == "Eligible for Free or Reduced Lunch"
     end
     selected.each do |line|
-      if line[:dataformat] == "Percent"
-        data_set[key][econ_prof_key][line[:timeframe].to_i].merge!({percentage: line[:data].to_f})
-      else
-        data_set[key][econ_prof_key][line[:timeframe].to_i].merge!({total: line[:data].to_i})
-      end
+      insert_percent_and_total(line, key)
+    end
+  end
+
+  def insert_percent_and_total(line, key)
+    if line[:dataformat] == "Percent"
+      data_set[key][econ_prof_key][line[:timeframe].to_i].merge!({percentage: line[:data].to_f})
+    else
+      data_set[key][econ_prof_key][line[:timeframe].to_i].merge!({total: line[:data].to_i})
     end
   end
 
@@ -70,5 +72,4 @@ class FreeReducedLunchParser
       row[:location]
     end
   end
-
 end

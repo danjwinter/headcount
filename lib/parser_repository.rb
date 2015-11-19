@@ -6,7 +6,6 @@ require_relative 'poverty_parser'
 require_relative 'title_i_parser'
 require_relative 'free_reduced_lunch_parser'
 require_relative 'median_household_income_parser'
-require 'pry'
 
 class ParserRepository
   attr_reader :enrollment_paths, :statewide_paths, :economic_paths
@@ -19,12 +18,9 @@ class ParserRepository
 
   def parsed
     parsed_category_data = {}
-
     send_enrollment_data(enrollment_paths, parsed_category_data)
     send_statewide_data(statewide_paths, parsed_category_data)
-    # binding.pry
     send_economic_data(economic_paths, parsed_category_data)
-
     parsed_category_data
   end
 
@@ -39,8 +35,6 @@ class ParserRepository
   end
 
   def send_economic_data(economic, parsed_category_data)
-    # parsed_category_data[:economic_profile] = {}
-    # binding.pry
     e_path = economic_statewide_path(economic)
     if e_path != nil
       if e_path[:median_household_income]

@@ -1,5 +1,4 @@
 require 'csv'
-require 'pry'
 
 class MedianHouseholdIncomeParser
 
@@ -10,7 +9,6 @@ class MedianHouseholdIncomeParser
     @data_set = {}
   end
 
-  # ["fuidjkhdif", :median_household_income]
 
   def load_info(path_econ_prof)
     @csv = CSV.read(path_econ_prof[0], {headers: true, header_converters: :symbol}).map {|row| row.to_h}
